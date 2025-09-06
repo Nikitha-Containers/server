@@ -3,27 +3,33 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import adminRoutes from "./routes/admin/adminRoutes.js";
-
+import adminRouter from './controllers/admin/adminAuth.js'
 
 const app = express();
-
-// Middleware
-
+const router = express.Router();
 app.use(express.json());
 app.use(cors());
 
-// Routes
-
-app.use("/admin", adminRoutes);
+// Middleware
+app.use("/admin", adminRouter);
 
 // MongoDB Connection
-
-mongoose.connect(process.env.MONGO_URI)
+mongoose
+    .connect(process.env.MONGO_URI)
     .then(() => console.log("Mongo DB Connected ✔"))
     .catch((err) => console.error("Mongo DB Connection Failed ", err));
 
 // Server Connection
+
+router.get("/", async (req, res) => {
+    try {
+        res.send("Connected...! 😎😉");
+    } catch (err) {
+        console.log("Connection Was Interrupted ....! 😤", err);
+        res.status(500).send("Something went wrong!");
+    }
+});
+
 
 app.listen(process.env.PORT, () => {
     console.log(`Server Running on ${process.env.PORT} `);
