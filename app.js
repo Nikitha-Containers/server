@@ -3,17 +3,23 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import adminRouter from './controllers/admin/adminAuth.js'
+
+import adminRoutes from './routes/admin/adminRoutes.js'
+import userRoutes from './routes/users/userRoutes.js'
+
 const { DB_CONNECTION, DATABASE, PORT } = process.env;
 
 
 const app = express();
 const router = express.Router();
+
+// Middleware
 app.use(express.json());
 app.use(cors());
 
-// Middleware
-app.use("/admin", adminRouter);
+// Routes
+app.use("/admin", adminRoutes);
+app.use("/user",userRoutes)
 
 app.use("/", router);
 
@@ -23,16 +29,17 @@ mongoose
     .then(() => console.log("Mongo DB Connected ✔"))
     .catch((err) => console.error("Mongo DB Connection Failed ", err));
 
-// Server Connection
+// Root endpoint
 router.get("/", async (req, res) => {
-  try {
-    res.send("Connected...! 😎😉");
-  } catch (err) {
-    console.log("Connection Was Interrupted ....! 😤", err);
-    res.status(500).send("Something went wrong!");
-  }
+    try {
+        res.send("Connected...! 😎😉");
+    } catch (err) {
+        console.log("Connection Was Interrupted ....! 😤", err);
+        res.status(500).send("Something went wrong!");
+    }
 });
 
+// Server Connection
 app.listen(PORT, () => {
-  console.log(`Server Running on ${PORT} `);
+    console.log(`Server Running on ${PORT} `);
 });

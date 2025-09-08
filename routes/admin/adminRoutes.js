@@ -1,6 +1,6 @@
 import dotenv from "dotenv";
 dotenv.config();
-import Admin from "../../models/admin/adminSchema.js";
+import adminSchema from "../../models/admin/adminSchema.js";
 import jwt from "jsonwebtoken";
 import express from "express";
 
@@ -19,13 +19,13 @@ const generateToken = (id) => {
 router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const existingAdmin = await Admin.findOne({ email });
+    const existingAdmin = await adminSchema.findOne({ email });
 
     if (existingAdmin) {
       return res.status(400).json({ message: "Admin already exists" });
     }
 
-    const admin = await Admin.create({ email, password });
+    const admin = await adminSchema.create({ email, password });
 
     const token = generateToken(admin._id);
 
@@ -43,7 +43,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
-    const admin = await Admin.findOne({ email }).select("+password");
+    const admin = await adminSchema.findOne({ email }).select("+password");
 
     if (!admin || !(await admin.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid credentials" });
