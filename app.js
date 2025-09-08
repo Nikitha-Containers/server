@@ -4,6 +4,8 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import adminRouter from './controllers/admin/adminAuth.js'
+const { DB_CONNECTION, DATABASE, PORT } = process.env;
+
 
 const app = express();
 const router = express.Router();
@@ -15,7 +17,7 @@ app.use("/admin", adminRouter);
 
 // MongoDB Connection
 mongoose
-    .connect(process.env.MONGO_URI)
+    .connect(DB_CONNECTION + DATABASE)
     .then(() => console.log("Mongo DB Connected ✔"))
     .catch((err) => console.error("Mongo DB Connection Failed ", err));
 
@@ -31,6 +33,6 @@ router.get("/", async (req, res) => {
 });
 
 
-app.listen(process.env.PORT, () => {
-    console.log(`Server Running on ${process.env.PORT} `);
+app.listen(PORT, () => {
+    console.log(`Server Running on ${PORT} `);
 });
