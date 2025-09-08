@@ -15,6 +15,8 @@ app.use(cors());
 // Middleware
 app.use("/admin", adminRouter);
 
+app.use("/", router);
+
 // MongoDB Connection
 mongoose
     .connect(DB_CONNECTION + DATABASE)
@@ -22,17 +24,15 @@ mongoose
     .catch((err) => console.error("Mongo DB Connection Failed ", err));
 
 // Server Connection
-
 router.get("/", async (req, res) => {
-    try {
-        res.send("Connected...! 😎😉");
-    } catch (err) {
-        console.log("Connection Was Interrupted ....! 😤", err);
-        res.status(500).send("Something went wrong!");
-    }
+  try {
+    res.send("Connected...! 😎😉");
+  } catch (err) {
+    console.log("Connection Was Interrupted ....! 😤", err);
+    res.status(500).send("Something went wrong!");
+  }
 });
 
-
 app.listen(PORT, () => {
-    console.log(`Server Running on ${PORT} `);
+  console.log(`Server Running on ${PORT} `);
 });
