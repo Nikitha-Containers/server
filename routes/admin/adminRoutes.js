@@ -1,61 +1,59 @@
 import dotenv from "dotenv";
 dotenv.config();
 import adminSchema from "../../models/admin/adminSchema.js";
-import jwt from "jsonwebtoken";
 import express from "express";
+import speakeasy from "speakeasy";
 
 const router = express.Router();
-
-const JWT_SECRET = process.env.JWT_SECRET;
-const JWT_EXPIRES_IN = process.env.JWT_EXPIRES_IN;
-
-
-
-const generateToken = (id) => {
-  return jwt.sign({ id }, JWT_SECRET, { expiresIn: JWT_EXPIRES_IN });
-};
 
 // Admin Register
 router.post("/register", async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const existingAdmin = await adminSchema.findOne({ email });
 
     if (existingAdmin) {
-      return res.status(400).json({ message: "Admin already exists" });
+      return res.json({ message: "Admin already exists" });
     }
 
-    const admin = await adminSchema.create({ email, password });
+    const admin = new adminSchema({ email, password });
+    await admin.save()
 
-    const token = generateToken(admin._id);
-
-    res.status(201).json({
-      token,
-      admin: { id: admin._id, email: admin.email },
-      message: "Admin created successfully",
-    });
+    res.status(201).json({ message: "Admin created successfully" });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 });
 
-// Admin Login
+// Admin Login (Email + Password + OTP)
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    const admin = await adminSchema.findOne({ email }).select("+password");
+    const { email, password, otp } = req.body;
+    const admin = await adminSchema.findOne({ email }).select("+password +authCode");
 
     if (!admin || !(await admin.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    const token = generateToken(admin._id);
+    // OTP Auth
+    if (!otp) {
+      return res.status(400).json({ message: "OTP required" });
+    }
 
-    res.json({
-      token,
-      message: "Login successful",
-      admin: { id: admin._id, email: admin.email },
+    const verified = speakeasy.totp.verify({
+      secret: admin.authCode,
+      encoding: "base32",
+      token: otp,
+      window: 1,
     });
+
+    if (!verified) {
+      return res.status(401).json({ message: "Invalid OTP" });
+    }
+
+    res.json({ message: "Login successful" });
+
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
