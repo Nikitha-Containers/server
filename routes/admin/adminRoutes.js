@@ -9,14 +9,14 @@ const router = express.Router();
 // Admin Register
 router.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { adminID, email, password } = req.body;
 
     const existingAdmin = await adminSchema.findOne({ email });
     if (existingAdmin) {
       return res.json({ message: "Admin already exists" });
     }
 
-    const admin = new adminSchema({ email, password });
+    const admin = new adminSchema({ adminID, email, password });
     await admin.save();
 
     res.status(201).json({ message: "Admin created successfully" });
@@ -35,7 +35,6 @@ router.post("/login", async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
     res.json({ message: "Password correct, proceed to OTP verification" });
-
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -44,9 +43,9 @@ router.post("/login", async (req, res) => {
 // OTP Verification
 router.post("/verify-otp", async (req, res) => {
   try {
-    const { email, otp } = req.body;
-    const admin = await adminSchema.findOne({ email }).select("+authCode");
-    
+    const { adminID, otp } = req.body;
+    const admin = await adminSchema.findOne({ adminID }).select("+authCode");
+
     const verifyOTP = speakeasy.totp.verify({
       secret: admin.authCode,
       encoding: "base32",
