@@ -16,11 +16,10 @@ const userSchema = new mongoose.Schema(
 );
 
 // Auto-increment userID
-
 userSchema.pre("save", async function (next) {
   if (this.isNew) {
     const lastUser = await mongoose
-      .model("user_details")
+      .model("UserDetails")
       .findOne()
       .sort({ userID: -1 });
     this.userID = lastUser ? lastUser.userID + 1 : 1;
@@ -34,9 +33,8 @@ userSchema.pre("save", async function (next) {
 });
 
 // Compare password method
-
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return bcrypt.compare(enteredPassword, this.password);
 };
 
-export default mongoose.model("user_details", userSchema);
+export default mongoose.model("UserDetails", userSchema);

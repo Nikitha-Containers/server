@@ -7,20 +7,28 @@ const router = express.Router();
 // Register User
 router.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password, empID, empName, department, menu } = req.body;
 
     const existingUser = await userSchema.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-    const user = await userSchema.create({ email, password });
-
-    res.status(201).json({
-      message: "User created successfully",
+    const user = await userSchema.create({
+      email,
+      password,
+      empID,
+      empName,
+      empName,
+      department,
+      menu,
     });
+
+    res
+      .status(201)
+      .json({ success: true, message: "User created successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 });
 
@@ -30,32 +38,26 @@ router.post("/login", async (req, res) => {
     const { email, password } = req.body;
 
     const user = await userSchema.findOne({ email }).select("+password");
+
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-
-    res.status(200).json({
-      message: "Login successful",
-      user: { id: user._id, userID: user.userID, email: user.email },
-    });
+    res.status(200).json({ success: true, message: "Login successful" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
 // Get All Users
 router.get("/allusers", async (req, res) => {
   try {
-    const usersList = await userSchema.find(
-      { status: "1" },
-      { _id: 0, __v: 0 }
-    );
+    const usersList = await userSchema.find();
     if (!usersList.length) {
-      return res.status(404).json({ message: "No users found" });
+      return res.status(404).json({ message: "Users not found" });
     }
-    res.status(200).json(usersList);
+    res.status(200).json({ success: true, usersList });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -66,9 +68,9 @@ router.get("/:userID", async (req, res) => {
     if (!singleUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.status(200).json({ singleUser });
+    res.status(200).json({ success: true });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -77,7 +79,6 @@ router.put("/:userID", async (req, res) => {
   try {
     const updateData = { ...req.body };
 
-    // if password included, hash it before saving
     if (updateData.password) {
       updateData.password = await bcrypt.hash(updateData.password, 10);
     }
@@ -92,12 +93,11 @@ router.put("/:userID", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    res.status(200).json({
-      message: "User Updated Successfully",
-      updateUser,
-    });
+    res
+      .status(200)
+      .json({ success: true, message: "User Updated Successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -110,9 +110,11 @@ router.delete("/:userID", async (req, res) => {
     if (!deleteUser) {
       return res.status(404).json({ message: "User not found" });
     }
-    res.status(200).json({ message: "User deleted successfully", deleteUser });
+    res
+      .status(200)
+      .json({ success: true, message: "User deleted successfully" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 

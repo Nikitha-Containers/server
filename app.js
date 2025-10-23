@@ -4,11 +4,11 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 
-import adminRoutes from './routes/admin/adminRoutes.js'
-import userRoutes from './routes/users/userRoutes.js'
+import adminRoutes from "./routes/admin/adminRoutes.js";
+import userRoutes from "./routes/users/userRoutes.js";
+import SO_Routes from "./routes/salesOrder/SO_Routes.js";
 
 const { DB_CONNECTION, DATABASE, PORT } = process.env;
-
 
 const app = express();
 const router = express.Router();
@@ -19,15 +19,16 @@ app.use(cors());
 
 // Routes
 app.use("/admin", adminRoutes);
-app.use("/user",userRoutes)
+app.use("/user", userRoutes);
+app.use("/sales", SO_Routes);
 
 app.use("/", router);
 
 // MongoDB Connection
 mongoose
-    .connect(DB_CONNECTION + DATABASE)
-    .then(() => console.log("Mongo DB Connected ✔"))
-    .catch((err) => console.error("Mongo DB Connection Failed ", err));
+  .connect(DB_CONNECTION + DATABASE)
+  .then(() => console.log("Mongo DB Connected ✔"))
+  .catch((err) => console.error("Mongo DB Connection Failed ", err));
 
 // Root endpoint
 router.get("/", async (req, res) => {
@@ -41,5 +42,5 @@ router.get("/", async (req, res) => {
 
 // Server Connection
 app.listen(PORT, () => {
-    console.log(`Server Running on ${PORT} `);
+  console.log(`Server Running on ${PORT}`);
 });

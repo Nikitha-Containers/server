@@ -19,9 +19,11 @@ router.post("/register", async (req, res) => {
     const admin = new adminSchema({ adminID, email, password });
     await admin.save();
 
-    res.status(201).json({ message: "Admin created successfully" });
+    res
+      .status(201)
+      .json({ success: true, message: "Admin created successfully" });
   } catch (error) {
-    res.status(400).json({ error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 });
 
@@ -34,9 +36,12 @@ router.post("/login", async (req, res) => {
     if (!admin || !(await admin.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    res.json({ message: "Password correct, proceed to OTP verification" });
+    res.json({
+      success: true,
+      message: "Password correct, proceed to OTP verification",
+    });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
@@ -56,9 +61,9 @@ router.post("/verify-otp", async (req, res) => {
     if (!verifyOTP) {
       return res.status(401).json({ message: "Invalid OTP" });
     }
-    res.json({ message: "Login successful with OTP" });
+    res.json({ success: true, message: "Login successful with OTP" });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ success: false, error: error.message });
   }
 });
 
