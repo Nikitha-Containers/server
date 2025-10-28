@@ -19,7 +19,6 @@ router.post("/register", async (req, res) => {
       password,
       empID,
       empName,
-      empName,
       department,
       menu,
     });
@@ -48,27 +47,11 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// Get All Users
-router.get("/allusers", async (req, res) => {
+// Get All Users (Active & Inactive)
+router.get("/all", async (req, res) => {
   try {
-    const usersList = await userSchema.find();
-    if (!usersList.length) {
-      return res.status(404).json({ message: "Users not found" });
-    }
-    res.status(200).json({ success: true, usersList });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-// Get a Single User
-router.get("/:userID", async (req, res) => {
-  try {
-    const singleUser = await userSchema.findOne({ userID: req.params.userID });
-    if (!singleUser) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.status(200).json({ success: true });
+    const allUsers = await userSchema.find();
+    res.status(200).json({ success: true, allUsers });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -101,18 +84,59 @@ router.put("/:userID", async (req, res) => {
   }
 });
 
-// Delete User
-router.delete("/:userID", async (req, res) => {
+// Soft Delete User (set status = 0)
+router.put("/:userID/deactivate", async (req, res) => {
   try {
-    const deleteUser = await userSchema.findOneAndDelete({
-      userID: req.params.userID,
-    });
+    const deleteUser = await userSchema.findOneAndUpdate(
+      { userID: req.params.userID },
+      { status: 0 },
+      { new: true }
+    );
     if (!deleteUser) {
       return res.status(404).json({ message: "User not found" });
     }
     res
       .status(200)
-      .json({ success: true, message: "User deleted successfully" });
+      .json({ success: true, message: "User deactivated successfully" });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Restore User (set status = 1)
+router.put("/:userID/activate", async (req, res) => {
+  try {
+    const restoredUser = await userSchema.findOneAndUpdate(
+      { userID: req.params.userID },
+      { status: 1 },
+      { new: true }
+    );
+
+    if (!restoredUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User activated successfully",
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Delete User Permanently
+router.delete("/:userID", async (req, res) => {
+  try {
+    const deletedUser = await userSchema.findOneAndDelete({
+      userID: req.params.userID,
+    });
+    if (!deletedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res
+      .status(200)
+      .json({ success: true, message: "User deleted permanently" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

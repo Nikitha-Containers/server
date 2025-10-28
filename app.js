@@ -32,12 +32,12 @@ mongoose
 
 // Root endpoint
 router.get("/", async (req, res) => {
-    try {
-        res.send("Connected...! 😎😉");
-    } catch (err) {
-        console.log("Connection Was Interrupted ....! 😤", err);
-        res.status(500).send("Something went wrong!");
-    }
+  try {
+    res.send("Connected...! 😎😉");
+  } catch (err) {
+    console.log("Connection Was Interrupted ....! 😤", err);
+    res.status(500).send("Something went wrong!");
+  }
 });
 
 // Server Connection

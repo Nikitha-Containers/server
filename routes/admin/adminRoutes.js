@@ -19,9 +19,11 @@ router.post("/register", async (req, res) => {
     const admin = new adminSchema({ adminID, email, password });
     await admin.save();
 
-    res
-      .status(201)
-      .json({ success: true, message: "Admin created successfully" });
+    res.status(201).json({
+      success: true,
+      message: "Admin created successfully",
+      admin,
+    });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -31,6 +33,7 @@ router.post("/register", async (req, res) => {
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
+
     const admin = await adminSchema.findOne({ email }).select("+password");
 
     if (!admin || !(await admin.comparePassword(password))) {
@@ -39,6 +42,7 @@ router.post("/login", async (req, res) => {
     res.json({
       success: true,
       message: "Password correct, proceed to OTP verification",
+      adminID: admin.adminID,
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -51,6 +55,8 @@ router.post("/verify-otp", async (req, res) => {
     const { adminID, otp } = req.body;
     const admin = await adminSchema.findOne({ adminID }).select("+authCode");
 
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
     const verifyOTP = speakeasy.totp.verify({
       secret: admin.authCode,
       encoding: "base32",
@@ -59,8 +65,11 @@ router.post("/verify-otp", async (req, res) => {
     });
 
     if (!verifyOTP) {
-      return res.status(401).json({ message: "Invalid OTP" });
+      return res
+        .status(401)
+        .json({ message: "Invalid OTP. Please try again !" });
     }
+
     res.json({ success: true, message: "Login successful with OTP" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });

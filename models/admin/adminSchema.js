@@ -4,7 +4,7 @@ import bcrypt from "bcryptjs";
 const adminSchema = new mongoose.Schema(
   {
     adminID: { type: String, required: true },
-    email: { type: String, unique: true, required: true},
+    email: { type: String, unique: true, required: true },
     password: { type: String, required: true, select: false },
     authCode: { type: String, default: "Q65YWSQJG66JPNKO" },
     status: { type: Number, default: 1 },
