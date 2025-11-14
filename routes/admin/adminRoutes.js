@@ -1,10 +1,21 @@
 import dotenv from "dotenv";
 dotenv.config();
-import adminSchema from "../../models/admin/adminSchema.js";
 import express from "express";
 import speakeasy from "speakeasy";
+import jwt from "jsonwebtoken";
+import adminSchema from "../../models/Admin/adminSchema.js";
 
 const router = express.Router();
+
+// Genarate JWT token
+
+const generateToken = (admin) => {
+  return jwt.sign(
+    { adminID: admin.adminID, email: admin.email },
+    process.env.JWT_SECRET,
+    { expiresIn: "1h" }
+  );
+};
 
 // Admin Register
 router.post("/register", async (req, res) => {
@@ -49,7 +60,7 @@ router.post("/login", async (req, res) => {
   }
 });
 
-// OTP Verification
+// OTP Verification + JWT Issue
 router.post("/verify-otp", async (req, res) => {
   try {
     const { adminID, otp } = req.body;
@@ -70,7 +81,9 @@ router.post("/verify-otp", async (req, res) => {
         .json({ message: "Invalid OTP. Please try again !" });
     }
 
-    res.json({ success: true, message: "Login successful with OTP" });
+    const token = generateToken(admin);
+
+    res.json({ success: true, message: "Login successful with OTP", token });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

@@ -1,0 +1,90 @@
+{
+  "status": "True",
+  "Message": "Success",
+  "Data": [
+    {
+      "JSONRESULT": [
+        {
+          "BPL_IDAssignedToInvoice": "1",
+          "CardCode": "C03917",
+          "CardName": "BAKEMATIC DIGITAL PRIVATE LIMITED",
+          "Comments": "Based On Sales Quotations 2510956.",
+          "DiscountPercent": 0.0,
+          "DocDate": "2025-11-03 00:00:00.0000000",
+          "DocDueDate": "2025-11-28 00:00:00.0000000",
+          "DocType": "I",
+          "GroupNumber": 4,
+          "ItemDetail": [
+            {
+              "AccountCode": "4010101008",
+              "DiscountPercent": 0.0,
+              "ItemCode": "FTC-04108",
+              "ItemDescription": "75 mm X 75 mm X 100 mm (HT) -Green color with Metalic golden Pattern lid& bottom Green color",
+              "LocationCode": 4,
+              "Price": 25.5,
+              "Quantity": 2000.0,
+              "SalesExpenseLines": [
+                {
+                  "DistributionRule": "",
+                  "DistributionRule2": "",
+                  "DistributionRule3": "",
+                  "ExpenseCode": 4,
+                  "LineGross": 18000.0,
+                  "LineTotal": 18000.0,
+                  "TaxCode": "CS18"
+                }
+              ],
+              "TaxCode": "IG18",
+              "U_AccQty": 0.0,
+              "U_BOMType": "U",
+              "U_BaseEntry": "11562",
+              "U_BaseType": "OMASI",
+              "U_Carton_Printing_If_Specified": "STANDARD",
+              "U_DLVR_Schedule": "25 PO AW PT",
+              "U_DesQty": 0.0,
+              "U_HldQty": 0.0,
+              "U_Inside_Coating_Lacquering": "FG GOLD",
+              "U_Outside_For_LID_BOTTOM": "ARTWORK",
+              "U_Packing_Mode": "5 PLY",
+              "U_QA": "NA",
+              "U_QCStatus": "Pen",
+              "U_Quotation_Validity": "30 DAYS",
+              "U_RejQty": 0.0,
+              "U_SampQty": 0.0,
+              "U_Shape_Of_TIN": "SQUARE",
+              "U_Spl_Instructions_If_Any": "NA",
+              "U_TIN_Printed_Plain": "PRINTED",
+              "U_TLRNC_in_Ord_Qty": "10%",
+              "U_Thickness_Of_Material": "0.20 MM",
+              "U_Type_Of_Material_to_be_Used": "BRIGHT TIN",
+              "U_Window": "NA",
+              "WarehouseCode": "NC1FG001"
+            }
+          ],
+          "NumAtCard": "BY MAIL, DT 23/10/2025",
+          "PayToCode": "BAKEMATIC DIGITAL PRIVATE LIMITED",
+          "Rounding": "N",
+          "RoundingDiffAmount": 0.0,
+          "SalesPersonCode": 3,
+          "Series": "",
+          "ShipToCode": "BAKEMATIC DIGITAL PRIVATE LIMITED",
+          "TaxDate": "2025-11-03 00:00:00.0000000",
+          "U_Artwork": "Old",
+          "U_BaseEntry": 45177,
+          "U_BaseType": "OMASI",
+          "U_CType": "STD",
+          "U_FlimDevelopment": "NA",
+          "U_LocCode": "N",
+          "U_PType": "PO",
+          "U_Posted": "Y",
+          "U_SCQty": 0.0,
+          "U_SSODEntry": 11562,
+          "U_SSODoc": 2501366,
+          "U_Transportation": "TO PAY BASIS",
+          "U_panvalue": 0.0,
+          "U_purvalue": 0.0
+        }
+      ]
+    }
+  ]
+}

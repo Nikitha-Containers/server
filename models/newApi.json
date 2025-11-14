@@ -1,0 +1,87 @@
+{
+  "status": "True",
+  "Message": "Success",
+  "Data": [
+    {
+      "JSONRESULT": [
+        {
+          "BPL_IDAssignedToInvoice": "1",
+          "CardCode": "C04215",
+          "CardName": "BAKERS MART",
+          "Comments": "Based On Sales Quotations 2510757.",
+          "DiscountPercent": 0.0,
+          "DocDate": "2025-11-05 00:00:00.0000000",
+          "DocDueDate": "2025-12-05 00:00:00.0000000",
+          "DocType": "I",
+          "GroupNumber": 1,
+          "ItemDetail": [
+            {
+              "AccountCode": "4010101008",
+              "DiscountPercent": 0.0,
+              "ItemCode": "FTC-00311",
+              "ItemDescription": "141 MM DIA X 60 MM (HT)- PLAIN GOLD",
+              "LocationCode": 4,
+              "Price": 32.0,
+              "Quantity": 540.0,
+              "SalesExpenseLines": [
+                {
+                  "DistributionRule": "",
+                  "DistributionRule2": "",
+                  "DistributionRule3": "",
+                  "ExpenseCode": 3,
+                  "LineGross": 15000.0,
+                  "LineTotal": 15000.0,
+                  "TaxCode": "IG18"
+                }
+              ],
+              "TaxCode": "IG18",
+              "U_AccQty": 0.0,
+              "U_BOMType": "U",
+              "U_BaseEntry": 11608,
+              "U_BaseType": "OMASI",
+              "U_Carton_Printing_If_Specified": "STANDARD",
+              "U_DLVR_Schedule": "30 PO AW PT",
+              "U_DesQty": 0.0,
+              "U_HldQty": 0.0,
+              "U_Inside_Coating_Lacquering": "FG GOLD",
+              "U_Outside_For_LID_BOTTOM": "ARTWORK",
+              "U_Packing_Mode": "5 PLY",
+              "U_QA": "NA",
+              "U_QCStatus": "Pen",
+              "U_Quotation_Validity": "30 DAYS",
+              "U_RejQty": 0.0,
+              "U_SampQty": 0.0,
+              "U_Shape_Of_TIN": "ROUND",
+              "U_TIN_Printed_Plain": "PLAIN",
+              "U_TLRNC_in_Ord_Qty": "10%",
+              "U_Thickness_Of_Material": "0.18 MM",
+              "U_Type_Of_Material_to_be_Used": "BRIGHT TIN",
+              "WarehouseCode": "NC1FG001"
+            }
+          ],
+          "PayToCode": "BAKERS MART",
+          "Rounding": "N",
+          "RoundingDiffAmount": 0.0,
+          "SalesPersonCode": 5,
+          "Series": "",
+          "ShipToCode": "BAKERS MART",
+          "TaxDate": "2025-11-05 00:00:00.0000000",
+          "U_Artwork": "NA",
+          "U_BaseEntry": 45083,
+          "U_BaseType": "OMASI",
+          "U_CType": "STD",
+          "U_FlimDevelopment": "NA",
+          "U_LocCode": "N",
+          "U_PType": "PO",
+          "U_Posted": "Y",
+          "U_SCQty": 0.0,
+          "U_SSODEntry": 11608,
+          "U_SSODoc": 2501397,
+          "U_Transportation": "TO PAY BASIS",
+          "U_panvalue": 0.0,
+          "U_purvalue": 0.0
+        }
+      ]
+    }
+  ]
+}

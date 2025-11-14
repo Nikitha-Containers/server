@@ -1,6 +1,6 @@
 import express from "express";
 import bcrypt from "bcryptjs";
-import userSchema from "../../models/users/userSchema.js";
+import userSchema from "../../models/User/userSchema.js";
 
 const router = express.Router();
 
