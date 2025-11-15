@@ -3,9 +3,10 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-
 import adminRoutes from "./routes/Admin/adminRoutes.js";
 import userRoutes from "./routes/User/userRoutes.js";
+import SO_Routes from "./routes/SalesOrder/SO_Routes.js";
+import sapFetchRoutes from "./routes/SalesOrder/sapFetchRoutes.js";
 
 const { DB_CONNECTION, DATABASE, PORT } = process.env;
 
@@ -19,7 +20,8 @@ app.use(cors());
 // Routes
 app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
-// app.use("/sales", SO_Routes);
+app.use("/sap", sapFetchRoutes);
+app.use("/salesorder", SO_Routes);
 
 app.use("/", router);
 
