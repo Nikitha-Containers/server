@@ -122,11 +122,31 @@ router.get("/sync", async (req, res) => {
 
     let successCount = 0;
     let errorCount = 0;
+    let newRecordsCount = 0;
+    let updatedRecordsCount = 0;
 
     // Process in batches
     for (let i = 0; i < sapArray.length; i += BATCH_SIZE) {
       const batch = sapArray.slice(i, i + BATCH_SIZE);
       const bulkOperations = [];
+
+      const invoiceNumbers = batch
+        .map((item) => item.BPL_IDAssignedToInvoice?.toString() || "")
+        .filter((inv) => inv !== "");
+
+      const existingRecords = await salesOrder
+        .find({
+          invoice_no: { $in: invoiceNumbers },
+        })
+        .select("invoice_no unique_id")
+        .lean();
+
+      const existingRecordsMap = new Map(
+        existingRecords.map((doc) => [doc.invoice_no, doc.unique_id])
+      );
+
+      const lastDoc = await salesOrder.findOne().sort({ unique_id: -1 }).lean();
+      let nextUniqueId = lastDoc ? lastDoc.unique_id + 1 : 1;
 
       for (let item of batch) {
         try {
@@ -156,78 +176,50 @@ router.get("/sync", async (req, res) => {
               expense = detail.SalesExpenseLines[0] || {};
             }
           }
+
+          const invoiceNo = item.BPL_IDAssignedToInvoice?.toString() || "";
+          const isExistingRecord = existingRecordsMap.has(invoiceNo);
+          const uniqueId = isExistingRecord
+            ? existingRecordsMap.get(invoiceNo)
+            : nextUniqueId++;
+
           // Prepare update data
           const updateData = {
-            invoice_no: safeNumber(item.BPL_IDAssignedToInvoice),
-            saleorder_no: item.CardCode,
-            customer_name: item.CardName,
+            unique_id: uniqueId,
+            invoice_no: invoiceNo,
+            customer_code: item.CardCode || "",
+            customer_name: item.CardName || "",
+            discount_percent: safeNumber(item.DiscountPercent),
+            posting_date: safeDate(item.DocDate),
+            due_date: safeDate(item.DocDueDate),
+            document_type: item.DocType || "",
+            group_no: safeNumber(item.GroupNumber),
+            account_code: detail.AccountCode || "",
+            item_discount_percent: safeNumber(detail.DiscountPercent),
             item_code: detail.ItemCode || "",
             item_description: detail.ItemDescription || "",
-            quantity: safeNumber(detail.Quantity),
+            location: safeNumber(detail.LocationCode),
             unit_price: safeNumber(detail.Price),
-            warehouse_code: detail.WarehouseCode || "",
-            location_code: safeNumber(detail.LocationCode),
+            quantity: safeNumber(detail.Quantity),
             tax_code: detail.TaxCode || "",
-            account_code: detail.AccountCode || "",
-            discount_percent: safeNumber(item.DiscountPercent),
-            art_work: item.U_Artwork || "",
-            flim_development: item.U_FlimDevelopment || "",
-            sales_person: safeNumber(item.SalesPersonCode),
-            order_date: safeDate(item.DocDate),
-            delivery_date: safeDate(item.DocDueDate),
             base_entry: safeNumber(item.U_BaseEntry),
             base_type: item.U_BaseType || "",
-
-            // DocType: item.DocType,
-            // GroupNumber: safeNumber(item.GroupNumber),
-            // TaxCode: detail.TaxCode || "",
-            // DistributionRule: expense.DistributionRule || "",
-            // DistributionRule2: expense.DistributionRule2 || "",
-            // DistributionRule3: expense.DistributionRule3 || "",
-            // ExpenseCode: safeNumber(expense.ExpenseCode),
-            // LineGross: safeNumber(expense.LineGross),
-            // LineTotal: safeNumber(expense.LineTotal),
-            // Sales_TaxCode: expense.TaxCode || "",
-            // U_AccQty: safeNumber(detail.U_AccQty),
-            // U_BOMType: detail.U_BOMType || "",
-            // U_Carton_Printing_If_Specified:
-            //   detail.U_Carton_Printing_If_Specified || "",
-            // U_DLVR_Schedule: detail.U_DLVR_Schedule || "",
-            // U_DesQty: safeNumber(detail.U_DesQty),
-            // U_HldQty: safeNumber(detail.U_HldQty),
-            // U_Inside_Coating_Lacquering:
-            //   detail.U_Inside_Coating_Lacquering || "",
-            // U_Outside_For_LID_BOTTOM: detail.U_Outside_For_LID_BOTTOM || "",
-            // U_Packing_Mode: detail.U_Packing_Mode || "",
-            // U_QA: detail.U_QA || "",
-            // U_QCStatus: detail.U_QCStatus || "",
-            // U_Quotation_Validity: detail.U_Quotation_Validity || "",
-            // U_RejQty: safeNumber(detail.U_RejQty),
-            // U_SampQty: safeNumber(detail.U_SampQty),
-            // U_Shape_Of_TIN: detail.U_Shape_Of_TIN || "",
-            // U_TIN_Printed_Plain: detail.U_TIN_Printed_Plain || "",
-            // U_TLRNC_in_Ord_Qty: detail.U_TLRNC_in_Ord_Qty || "",
-            // U_Thickness_Of_Material: detail.U_Thickness_Of_Material || "",
-            // U_Type_Of_Material_to_be_Used:
-            //   detail.U_Type_Of_Material_to_be_Used || "",
-            // U_CType: item.U_CType || "",
-            // U_FlimDevelopment: item.U_FlimDevelopment || "",
-            // U_LocCode: item.U_LocCode || "",
-            // U_PType: item.U_PType || "",
-            // U_Posted: item.U_Posted || "",
-            // U_SCQty: safeNumber(item.U_SCQty),
-            // U_SSODEntry: safeNumber(item.U_SSODEntry),
-            // U_SSODoc: safeNumber(item.U_SSODoc),
-            // U_Transportation: item.U_Transportation || "",
-            // U_panvalue: safeNumber(item.U_panvalue),
-            // U_purvalue: safeNumber(item.U_purvalue),
-            // PayToCode: item.PayToCode || "",
-            // Rounding: item.Rounding || "",
-            // RoundingDiffAmount: safeNumber(item.RoundingDiffAmount),
-            // Series: item.Series || "",
-            // ShipToCode: item.ShipToCode || "",
-            // TaxDate: safeDate(item.TaxDate),
+            warehouse_code: detail.WarehouseCode || "",
+            customer_ref_no: item.NumAtCard || "",
+            bill_code: item.PayToCode || "",
+            round_off: item.Rounding || "",
+            round_diff_amount: safeNumber(item.RoundingDiffAmount),
+            sales_person: safeNumber(item.SalesPersonCode),
+            document_series: item.Series || "",
+            shipping_code: item.ShipToCode || "",
+            tax_date: safeDate(item.TaxDate),
+            art_work: item.U_Artwork || "",
+            flim_development: item.U_FlimDevelopment || "",
+            posting_status: item.U_Posted || "",
+            document_no: safeNumber(item.U_SSODoc),
+            transportation: item.U_Transportation || "",
           };
+
           bulkOperations.push({
             updateOne: {
               filter: { invoice_no: updateData.invoice_no },
@@ -235,6 +227,12 @@ router.get("/sync", async (req, res) => {
               upsert: true,
             },
           });
+
+          if (isExistingRecord) {
+            updatedRecordsCount++;
+          } else {
+            newRecordsCount++;
+          }
 
           successCount++;
         } catch (itemError) {
@@ -268,14 +266,16 @@ router.get("/sync", async (req, res) => {
     console.timeEnd("Total Sync Time");
 
     res.json({
-      message: "SAP Data Sync Completed",
-      success: successCount,
+      message: "SAP Data Sync Completed Successfully",
+      totalProcessed: successCount,
+      newRecords: newRecordsCount,
+      updatedRecords: updatedRecordsCount,
       errors: errorCount,
-      total: sapArray.length,
+      totalFromSAP: sapArray.length,
     });
 
     console.log(
-      `Synchronization completed: ${successCount}/${sapArray.length} records processed successfully...⚡`
+      `Synchronization completed: ${successCount}/${sapArray.length} records processed (${newRecordsCount} new, ${updatedRecordsCount} updated)`
     );
   } catch (error) {
     console.error("SAP Fetch Error:", error);
