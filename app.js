@@ -6,7 +6,7 @@ import cors from "cors";
 import adminRoutes from "./routes/Admin/adminRoutes.js";
 import userRoutes from "./routes/User/userRoutes.js";
 import SO_Routes from "./routes/SalesOrder/SO_Routes.js";
-import sapFetchRoutes from "./routes/SalesOrder/sapFetchRoutes.js";
+import sapFetchRoutes from './routes/salesOrder/sapFetchRoutes.js'
 
 const { DB_CONNECTION, DATABASE, PORT } = process.env;
 
