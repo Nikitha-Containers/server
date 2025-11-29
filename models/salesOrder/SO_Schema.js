@@ -4,7 +4,7 @@ const SO_Schema = new mongoose.Schema(
   {
     unique_id: { type: Number, required: true, unique: true },
     invoice_no: { type: String, required: true, unique: true },
-    customer_code: { type: String },
+    saleorder_no: { type: String },
     customer_name: { type: String },
     discount_percent: { type: Number, default: 0 },
     posting_date: { type: Date },
@@ -35,6 +35,7 @@ const SO_Schema = new mongoose.Schema(
     posting_status: { type: String },
     document_no: { type: Number },
     transportation: { type: String },
+    thickness: { type: String },
   },
   { timestamps: true }
 );

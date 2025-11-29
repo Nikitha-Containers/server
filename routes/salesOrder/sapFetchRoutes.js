@@ -187,7 +187,7 @@ router.get("/sync", async (req, res) => {
           const updateData = {
             unique_id: uniqueId,
             invoice_no: invoiceNo,
-            customer_code: item.CardCode || "",
+            saleorder_no: item.CardCode || "",
             customer_name: item.CardName || "",
             discount_percent: safeNumber(item.DiscountPercent),
             posting_date: safeDate(item.DocDate),
@@ -218,6 +218,7 @@ router.get("/sync", async (req, res) => {
             posting_status: item.U_Posted || "",
             document_no: safeNumber(item.U_SSODoc),
             transportation: item.U_Transportation || "",
+            thickness: detail.U_Thickness_Of_Material || "",
           };
 
           bulkOperations.push({

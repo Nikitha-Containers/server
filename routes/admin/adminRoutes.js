@@ -13,7 +13,7 @@ const generateToken = (admin) => {
   return jwt.sign(
     { adminID: admin.adminID, email: admin.email },
     process.env.JWT_SECRET,
-    { expiresIn: "1h" }
+    { expiresIn: process.env.EXPIRES_IN }
   );
 };
 
