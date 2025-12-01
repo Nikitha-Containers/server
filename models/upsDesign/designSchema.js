@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const designSchema = new mongoose.Schema(
   {
-    saleorder_no: { type: String, default: "" },
-    posting_date: { type: Date, default: "" },
+    saleorder_no: { type: String, required: true },
+    posting_date: { type: Date },
     fab_site: { type: String, default: "" },
     job_name: { type: String, default: "" },
     components: { type: Array, default: [] },
