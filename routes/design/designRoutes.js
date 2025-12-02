@@ -1,5 +1,5 @@
 import express from "express";
-import Design from "../../models/upsDesign/designSchema.js";
+import Design from "../../models/design/designSchema.js";
 
 const router = express.Router();
 
