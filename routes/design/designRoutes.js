@@ -3,96 +3,52 @@ import Design from "../../models/design/designSchema.js";
 
 const router = express.Router();
 
+// Add a Design
+
 router.post("/add", async (req, res) => {
   try {
     const {
       saleorder_no,
       posting_date,
+      quantity,
       machine,
-      totalQty,
-      art_work,
-      size,
-      customer_name,
-      start_date,
-      end_date,
       components,
+      art_work,
+      item_description,
+      customer_name,
+      due_date,
     } = req.body;
 
     if (!saleorder_no) {
-      return res
-        .status(400)
-        .json({ success: false, error: "`saleorder_no` is required" });
+      return res.status(400).json({ message: "Saleorder No is Required" });
     }
-
-    // Prepare update data
-    const updateData = {
+    const design = await Design.create({
       saleorder_no,
-      posting_date: posting_date ? new Date(posting_date) : undefined,
+      posting_date,
+      quantity,
       machine,
-      totalQty,
+      components,
       art_work,
-      size,
+      item_description,
       customer_name,
-      start_date: start_date ? new Date(start_date) : undefined,
-      end_date: end_date ? new Date(end_date) : undefined,
-      components: components || {},
-    };
-
-    // Check if design exists
-    let existing = await Design.findOne({ saleorder_no });
-
-    let design;
-    if (existing) {
-      // Update existing design
-      design = await Design.findOneAndUpdate(
-        { saleorder_no },
-        { $set: updateData },
-        { new: true }
-      );
-    } else {
-      // Create new design
-      design = await Design.create(updateData);
-    }
-
-    res.status(200).json({
-      success: true,
-      message: existing
-        ? "Design updated successfully"
-        : "Design created successfully",
-      design,
+      due_date,
     });
+
+    res
+      .status(201)
+      .json({ success: true, message: "Desigan created Successfully", design });
   } catch (error) {
-    console.error("Error in /design/add:", error);
-    res.status(500).json({ success: false, error: error.message });
+    res.status(400).json({ success: false, error: error.message });
   }
 });
 
+// Get all Designs
 router.get("/", async (req, res) => {
   try {
-    const allDesign = await Design.find().sort({ createdAt: -1 });
+    const allDesign = await Design.find();
     res.status(200).json({ success: true, allDesign });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
 });
-
-router.get("/:saleorder_no", async (req, res) => {
-  try {
-    const design = await Design.findOne({
-      saleorder_no: req.params.saleorder_no,
-    });
-
-    if (!design) {
-      return res.status(404).json({
-        success: false,
-        error: "Design not found",
-      });
-    }
-
-    res.status(200).json({ success: true, design });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
 export default router;
