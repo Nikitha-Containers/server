@@ -22,17 +22,20 @@ router.post("/add", async (req, res) => {
     if (!saleorder_no) {
       return res.status(400).json({ message: "Saleorder No is Required" });
     }
-    const design = await Design.create({
-      saleorder_no,
-      posting_date,
-      quantity,
-      machine,
-      components,
-      art_work,
-      item_description,
-      customer_name,
-      due_date,
-    });
+    const design = await Design.findOneAndUpdate(
+      { saleorder_no },
+      {
+        saleorder_no,
+        posting_date,
+        quantity,
+        machine,
+        components,
+        art_work,
+        item_description,
+        customer_name,
+        due_date,
+      }
+    );
 
     res
       .status(201)
