@@ -8,6 +8,8 @@ import userRoutes from "./routes/user/userRoutes.js";
 import SO_Routes from "./routes/SalesOrder/SO_Routes.js";
 import sapFetchRoutes from "./routes/salesOrder/sapFetchRoutes.js";
 import DesignRoutes from "./routes/design/designRoutes.js";
+import path from "path";
+
 const { DB_CONNECTION, DATABASE, PORT } = process.env;
 
 const app = express();
@@ -16,6 +18,9 @@ const router = express.Router();
 // Middleware
 app.use(express.json());
 app.use(cors());
+
+// Multer Config
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // Routes
 app.use("/admin", adminRoutes);
