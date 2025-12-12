@@ -39,7 +39,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     req.files?.forEach((file) => {
       const componentName = file.fieldname;
       if (!componentData[componentName]) componentData[componentName] = {};
-      componentData[componentName].file = file.path;
+      componentData[componentName].file = file.filename;
     });
 
     const design = await Design.findOneAndUpdate(
