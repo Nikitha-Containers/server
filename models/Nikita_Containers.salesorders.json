@@ -1,0 +1,468 @@
+[{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a89"
+  },
+  "invoice_no": "2",
+  "__v": 0,
+  "account_code": "4010101010",
+  "art_work": "NA",
+  "base_entry": 45084,
+  "base_type": "OMASI",
+  "bill_code": "ABC STORES",
+  "createdAt": {
+    "$date": "2025-11-28T10:10:00.170Z"
+  },
+  "customer_name": "ABC STORES",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501398,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-05T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 1,
+  "item_code": "FTC-02593",
+  "item_description": "Z MAGNETISM FOR MEN - CLASSIC 75G BOX",
+  "item_discount_percent": 0,
+  "location": 4,
+  "posting_date": {
+    "$date": "2025-11-05T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 15000,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04216",
+  "sales_person": 5,
+  "shipping_code": "ABC STORES",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-05T18:30:00.000Z"
+  },
+  "thickness": "0.23 MM",
+  "transportation": "TO PAY BASIS",
+  "unique_id": 2,
+  "unit_price": 10,
+  "updatedAt": {
+    "$date": "2025-12-01T06:20:12.216Z"
+  },
+  "warehouse_code": "NC1FG001"
+},
+{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a90"
+  },
+  "invoice_no": "3",
+  "__v": 0,
+  "account_code": "4010101012",
+  "art_work": "new",
+  "base_entry": 45085,
+  "base_type": "OMASI",
+  "bill_code": "CITY TRADERS",
+  "createdAt": {
+    "$date": "2025-11-29T09:00:00.170Z"
+  },
+  "customer_name": "CITY TRADERS",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501399,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-06T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 1,
+  "item_code": "FTC-02594",
+  "item_description": "DEO SPRAY PACK 100ML",
+  "item_discount_percent": 0,
+  "location": 2,
+  "posting_date": {
+    "$date": "2025-11-06T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 18000,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04217",
+  "sales_person": 3,
+  "shipping_code": "CITY TRADERS",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-06T18:30:00.000Z"
+  },
+  "thickness": "0.20 MM",
+  "transportation": "PAID",
+  "unique_id": 3,
+  "unit_price": 15.5,
+  "updatedAt": {
+    "$date": "2025-12-01T07:00:12.216Z"
+  },
+  "warehouse_code": "NC1FG002"
+},
+{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a91"
+  },
+  "invoice_no": "4",
+  "__v": 0,
+  "account_code": "4010101015",
+  "art_work": "NA",
+  "base_entry": 45086,
+  "base_type": "OMASI",
+  "bill_code": "SUPER MARKET",
+  "createdAt": {
+    "$date": "2025-11-29T11:20:00.170Z"
+  },
+  "customer_name": "SUPER MARKET",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501400,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-07T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 2,
+  "item_code": "FTC-02595",
+  "item_description": "BODY SPRAY - BLACK EDITION 120ML",
+  "item_discount_percent": 0,
+  "location": 3,
+  "posting_date": {
+    "$date": "2025-11-07T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 22000,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04218",
+  "sales_person": 7,
+  "shipping_code": "SUPER MARKET",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-07T18:30:00.000Z"
+  },
+  "thickness": "0.25 MM",
+  "transportation": "TO PAY BASIS",
+  "unique_id": 4,
+  "unit_price": 11.75,
+  "updatedAt": {
+    "$date": "2025-12-01T09:00:12.216Z"
+  },
+  "warehouse_code": "NC1FG003"
+},
+{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a92"
+  },
+  "invoice_no": "5",
+  "__v": 0,
+  "account_code": "4010101016",
+  "art_work": "NA",
+  "base_entry": 45087,
+  "base_type": "OMASI",
+  "bill_code": "ROYAL STORES",
+  "createdAt": {
+    "$date": "2025-11-29T15:50:00.170Z"
+  },
+  "customer_name": "ROYAL STORES",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501401,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-08T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 2,
+  "item_code": "FTC-02596",
+  "item_description": "Z CLASSIC EDITION PERFUME 50ML",
+  "item_discount_percent": 0,
+  "location": 2,
+  "posting_date": {
+    "$date": "2025-11-08T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 10000,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04219",
+  "sales_person": 4,
+  "shipping_code": "ROYAL STORES",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-08T18:30:00.000Z"
+  },
+  "thickness": "0.30 MM",
+  "transportation": "PAID",
+  "unique_id": 5,
+  "unit_price": 18,
+  "updatedAt": {
+    "$date": "2025-12-01T10:15:12.216Z"
+  },
+  "warehouse_code": "NC1FG004"
+},
+{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a93"
+  },
+  "invoice_no": "6",
+  "__v": 0,
+  "account_code": "4010101017",
+  "art_work": "NA",
+  "base_entry": 45088,
+  "base_type": "OMASI",
+  "bill_code": "MEGA MART",
+  "createdAt": {
+    "$date": "2025-11-30T08:00:00.170Z"
+  },
+  "customer_name": "MEGA MART",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501402,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-09T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 3,
+  "item_code": "FTC-02597",
+  "item_description": "FRESH DEO PACK 150ML",
+  "item_discount_percent": 0,
+  "location": 4,
+  "posting_date": {
+    "$date": "2025-11-09T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 12500,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04220",
+  "sales_person": 6,
+  "shipping_code": "MEGA MART",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-09T18:30:00.000Z"
+  },
+  "thickness": "0.22 MM",
+  "transportation": "TO PAY BASIS",
+  "unique_id": 6,
+  "unit_price": 14.25,
+  "updatedAt": {
+    "$date": "2025-12-01T11:10:12.216Z"
+  },
+  "warehouse_code": "NC1FG001"
+},
+{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a94"
+  },
+  "invoice_no": "7",
+  "__v": 0,
+  "account_code": "4010101018",
+  "art_work": "NA",
+  "base_entry": 45089,
+  "base_type": "OMASI",
+  "bill_code": "GREEN STORES",
+  "createdAt": {
+    "$date": "2025-11-30T12:30:00.170Z"
+  },
+  "customer_name": "GREEN STORES",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501403,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-10T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 1,
+  "item_code": "FTC-02598",
+  "item_description": "DEO ROLL ON 50ML",
+  "item_discount_percent": 0,
+  "location": 1,
+  "posting_date": {
+    "$date": "2025-11-10T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 27000,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04221",
+  "sales_person": 2,
+  "shipping_code": "GREEN STORES",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-10T18:30:00.000Z"
+  },
+  "thickness": "0.21 MM",
+  "transportation": "PAID",
+  "unique_id": 7,
+  "unit_price": 9.5,
+  "updatedAt": {
+    "$date": "2025-12-01T11:55:12.216Z"
+  },
+  "warehouse_code": "NC1FG002"
+},
+{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a95"
+  },
+  "invoice_no": "8",
+  "__v": 0,
+  "account_code": "4010101019",
+  "art_work": "NA",
+  "base_entry": 45090,
+  "base_type": "OMASI",
+  "bill_code": "PREMIUM MART",
+  "createdAt": {
+    "$date": "2025-12-01T08:40:00.170Z"
+  },
+  "customer_name": "PREMIUM MART",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501404,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-11T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 2,
+  "item_code": "FTC-02599",
+  "item_description": "Z ULTIMATE PERFUME 100ML",
+  "item_discount_percent": 0,
+  "location": 2,
+  "posting_date": {
+    "$date": "2025-11-11T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 5000,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04222",
+  "sales_person": 8,
+  "shipping_code": "PREMIUM MART",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-11T18:30:00.000Z"
+  },
+  "thickness": "0.28 MM",
+  "transportation": "TO PAY BASIS",
+  "unique_id": 8,
+  "unit_price": 22,
+  "updatedAt": {
+    "$date": "2025-12-01T12:20:12.216Z"
+  },
+  "warehouse_code": "NC1FG003"
+},
+{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a96"
+  },
+  "invoice_no": "9",
+  "__v": 0,
+  "account_code": "4010101020",
+  "art_work": "NA",
+  "base_entry": 45091,
+  "base_type": "OMASI",
+  "bill_code": "STAR TRADERS",
+  "createdAt": {
+    "$date": "2025-12-01T11:50:00.170Z"
+  },
+  "customer_name": "STAR TRADERS",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501405,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-12T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 3,
+  "item_code": "FTC-02600",
+  "item_description": "GENTLEMAN DEO PACK 200ML",
+  "item_discount_percent": 0,
+  "location": 3,
+  "posting_date": {
+    "$date": "2025-11-12T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 14000,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04223",
+  "sales_person": 6,
+  "shipping_code": "STAR TRADERS",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-12T18:30:00.000Z"
+  },
+  "thickness": "0.26 MM",
+  "transportation": "PAID",
+  "unique_id": 9,
+  "unit_price": 16.75,
+  "updatedAt": {
+    "$date": "2025-12-01T12:45:12.216Z"
+  },
+  "warehouse_code": "NC1FG004"
+},
+{
+  "_id": {
+    "$oid": "692817c0319f2bb874b23a97"
+  },
+  "invoice_no": "10",
+  "__v": 0,
+  "account_code": "4010101021",
+  "art_work": "NA",
+  "base_entry": 45092,
+  "base_type": "OMASI",
+  "bill_code": "SMART SHOP",
+  "createdAt": {
+    "$date": "2025-12-01T14:10:00.170Z"
+  },
+  "customer_name": "SMART SHOP",
+  "customer_ref_no": "",
+  "discount_percent": 0,
+  "document_no": 2501406,
+  "document_series": "",
+  "document_type": "I",
+  "due_date": {
+    "$date": "2025-12-13T18:30:00.000Z"
+  },
+  "flim_development": "NA",
+  "group_no": 2,
+  "item_code": "FTC-02601",
+  "item_description": "Z SPORT PERFUME 150ML",
+  "item_discount_percent": 0,
+  "location": 2,
+  "posting_date": {
+    "$date": "2025-11-13T18:30:00.000Z"
+  },
+  "posting_status": "Y",
+  "quantity": 19500,
+  "round_diff_amount": 0,
+  "round_off": "N",
+  "saleorder_no": "C04224",
+  "sales_person": 4,
+  "shipping_code": "SMART SHOP",
+  "tax_code": "IG18",
+  "tax_date": {
+    "$date": "2025-11-13T18:30:00.000Z"
+  },
+  "thickness": "0.24 MM",
+  "transportation": "TO PAY BASIS",
+  "unique_id": 10,
+  "unit_price": 13.5,
+  "updatedAt": {
+    "$date": "2025-12-01T13:00:12.216Z"
+  },
+  "warehouse_code": "NC1FG002"
+}]

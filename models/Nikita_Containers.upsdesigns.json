@@ -1,0 +1,115 @@
+[{
+  "_id": {
+    "$oid": "69390ad04a15f29d5afccd76"
+  },
+  "saleorder_no": "C04216",
+  "__v": 0,
+  "art_work": "NA",
+  "components": {
+    "Lid": {
+      "selected": true,
+      "length": "10",
+      "breadth": "1",
+      "thickness": "0.23 MM",
+      "ups": "1",
+      "sheets": "1",
+      "file": "10-12-2025_11-23-20-Lid-wp10447317-peter-parker-and-gwen-stacy-desktop-wallpapers.jpg"
+    },
+    "Body": {
+      "selected": true,
+      "length": "20",
+      "breadth": "2",
+      "thickness": "0.23 MM",
+      "ups": "2",
+      "sheets": "2",
+      "file": "10-12-2025_11-23-20-Body-wp10447317-peter-parker-and-gwen-stacy-desktop-wallpapers.jpg"
+    },
+    "Bottom": {
+      "selected": true,
+      "length": "30",
+      "breadth": "3",
+      "thickness": "0.23 MM",
+      "ups": "3",
+      "sheets": "3",
+      "file": "10-12-2025_11-23-20-Bottom-wp10447317-peter-parker-and-gwen-stacy-desktop-wallpapers.jpg"
+    },
+    "Lid & Body": {
+      "selected": true,
+      "length": "40",
+      "breadth": "4",
+      "thickness": "0.23 MM",
+      "ups": "56",
+      "sheets": "4",
+      "file": "10-12-2025_11-23-20-Lid & Body-wp10447317-peter-parker-and-gwen-stacy-desktop-wallpapers.jpg"
+    },
+    "Lid & Body & Bottom": {
+      "selected": true,
+      "length": "50",
+      "breadth": "5",
+      "thickness": "0.23 MM",
+      "ups": "5",
+      "sheets": "5",
+      "file": "10-12-2025_11-23-20-Lid & Body & Bottom-wp10447317-peter-parker-and-gwen-stacy-desktop-wallpapers.jpg"
+    },
+    "Body & Bottom": {
+      "selected": true,
+      "length": "60",
+      "breadth": "6",
+      "thickness": "0.23 MM",
+      "ups": "6",
+      "sheets": "6",
+      "file": "10-12-2025_11-23-20-Body & Bottom-wp10447317-peter-parker-and-gwen-stacy-desktop-wallpapers.jpg"
+    }
+  },
+  "createdAt": {
+    "$date": "2025-12-10T05:53:20.681Z"
+  },
+  "customer_name": "ABC STORES",
+  "due_date": {
+    "$date": "2025-12-05T18:30:00.000Z"
+  },
+  "item_description": "Z MAGNETISM FOR MEN - CLASSIC 75G BOX",
+  "machine": "Machine 2",
+  "posting_date": {
+    "$date": "2025-11-05T00:00:00.000Z"
+  },
+  "quantity": "15000",
+  "updatedAt": {
+    "$date": "2025-12-10T12:30:59.614Z"
+  }
+},
+{
+  "_id": {
+    "$oid": "693967054a15f29d5afccd77"
+  },
+  "saleorder_no": "C04218",
+  "__v": 0,
+  "art_work": "NA",
+  "components": {
+    "Lid": {
+      "selected": true,
+      "length": "12",
+      "breadth": "3",
+      "thickness": "0.25 MM",
+      "ups": "4",
+      "sheets": "5",
+      "file": "10-12-2025_17-56-45-Lid-wp10447317-peter-parker-and-gwen-stacy-desktop-wallpapers.jpg"
+    }
+  },
+  "createdAt": {
+    "$date": "2025-12-10T12:26:45.196Z"
+  },
+  "customer_name": "SUPER MARKET",
+  "due_date": {
+    "$date": "2025-12-07T18:30:00.000Z"
+  },
+  "item_description": "BODY SPRAY - BLACK EDITION 120ML",
+  "machine": "Machine 2",
+  "posting_date": {
+    "$date": "2025-11-07T00:00:00.000Z"
+  },
+  "quantity": "22000",
+  "updatedAt": {
+    "$date": "2025-12-10T12:26:45.196Z"
+  }
+}]
