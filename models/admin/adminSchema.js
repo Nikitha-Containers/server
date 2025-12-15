@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
+import cryptoJS from "crypto-js";
 
 const adminSchema = new mongoose.Schema(
   {
@@ -15,7 +16,8 @@ const adminSchema = new mongoose.Schema(
 // Hash before save
 adminSchema.pre("save", async function (next) {
   if (!this.isModified("password")) return next();
-  this.password = await bcrypt.hash(this.password, 10);
+  const shaPassword = cryptoJS.SHA256(this.password).toString();
+  this.password = await bcrypt.hash(shaPassword, 10);
   next();
 });
 

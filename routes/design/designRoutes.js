@@ -79,4 +79,41 @@ router.get("/", async (req, res) => {
   }
 });
 
+// Update or Insert Design
+
+router.put("/:saleorder_no", async (req, res) => {
+  try {
+    const { components } = req.body;
+
+    const updateQuery = {};
+
+    Object.entries(components || {}).forEach(([compName, data]) => {
+      if (data.coating) {
+        updateQuery[`components.${compName}.coating`] = data.coating;
+      }
+
+      if (data.printingColor) {
+        updateQuery[`components.${compName}.printingColor`] =
+          data.printingColor;
+      }
+    });
+
+    const updateComponent = await Design.findOneAndUpdate(
+      {
+        saleorder_no: req.params.saleorder_no,
+      },
+      { $set: updateQuery },
+      { new: true, runValidators: true }
+    );
+
+    res.status(200).json({
+      success: true,
+      message: "Printing Manager Design Saved Successsfully ",
+      updateComponent,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 export default router;
