@@ -11,7 +11,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     const {
       saleorder_no,
       posting_date,
-      quantity,
+      item_quantity,
       machine,
       components,
       art_work,
@@ -47,7 +47,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       {
         saleorder_no,
         posting_date,
-        quantity,
+        item_quantity,
         machine,
         components: componentData,
         art_work,
