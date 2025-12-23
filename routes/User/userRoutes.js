@@ -7,20 +7,35 @@ const router = express.Router();
 // Register User
 router.post("/register", async (req, res) => {
   try {
-    const { email, password, empID, empName, department, menu } = req.body;
-
-    const existingUser = await userSchema.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "User already exists" });
-    }
-
-    const user = await userSchema.create({
+    const {
       email,
       password,
       empID,
       empName,
       department,
       menu,
+      ipAddress,
+      pages,
+    } = req.body;
+
+    const sidemenus = pages.length ? pages?.toString() : "";
+
+    console.log("req.body...pages", pages);
+
+    const existingUser = await userSchema.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    await userSchema.create({
+      email,
+      password,
+      empID,
+      empName,
+      department,
+      menu,
+      ipAddress,
+      sidemenus,
     });
 
     res
@@ -60,15 +75,27 @@ router.get("/all", async (req, res) => {
 // Update User (with explicit password hashing)
 router.put("/:userID", async (req, res) => {
   try {
-    const updateData = { ...req.body };
+    const reqData = req.body?.updateData;
 
-    if (updateData.password) {
-      updateData.password = await bcrypt.hash(updateData.password, 10);
+    const pages = Array.isArray(reqData.pages)
+      ? reqData.pages.join(",")
+      : reqData.pages;
+
+    if (reqData?.pages) {
+      reqData.sidemenus = pages;
     }
+
+    if (reqData?.password) {
+      reqData.password = await bcrypt.hash(reqData?.password, 10);
+    }
+
+    console.log("reqData", reqData);
 
     const updateUser = await userSchema.findOneAndUpdate(
       { userID: req.params.userID },
-      updateData,
+
+      reqData,
+
       { new: true, runValidators: true }
     );
 
@@ -81,6 +108,7 @@ router.put("/:userID", async (req, res) => {
       .json({ success: true, message: "User Updated Successfully" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+    console.log("Error in updating User", error);
   }
 });
 

@@ -9,8 +9,9 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true, select: false },
     empName: { type: String },
     department: { type: String },
-    menu: { type: String },
+    ipAddress: { type: String },
     status: { type: Number, default: 1 },
+    sidemenus: { type: String, default: "" },
   },
   { timestamps: true }
 );
