@@ -10,8 +10,10 @@ const userSchema = new mongoose.Schema(
     empName: { type: String },
     department: { type: String },
     ipAddress: { type: String },
+    loginType: { type: String },
     status: { type: Number, default: 1 },
     sidemenus: { type: String, default: "" },
+    authCode: { type: String, default: "Q65YWSQJG66JPNKO" },
   },
   { timestamps: true }
 );
