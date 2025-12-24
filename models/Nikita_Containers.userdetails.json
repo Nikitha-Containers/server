@@ -1,0 +1,19 @@
+[{
+  "_id": {
+    "$oid": "694b979671b8b951f6379d03"
+  },
+  "userID": 1,
+  "empID": "Admin",
+  "email": "admin@gmail.com",
+  "password": "$2b$10$vwUtvGjASHv95mIkFX0GRerpma4Rmeo7Eg7EBQsdrF6.k9ZdXkoIW",
+  "empName": "Admin",
+  "department": "Planning",
+  "ipAddress": "192.168.1.1",
+  "loginType": "Admin",
+  "status": 1,
+  "sidemenus": "Dashboard,Sync with SO",
+  "authCode": "H5EW2SLIG4TDC52BGQUFAKL3G4ZDILSM",
+  "updatedAt": {
+    "$date": "2025-12-24T08:15:25.338Z"
+  }
+}]
