@@ -70,11 +70,7 @@ router.post("/login", async (req, res) => {
   try {
     const { empID, password } = req.body;
 
-    console.log("req.body", req.body);
-
     const user = await userSchema.findOne({ empID }).select("+password");
-
-    console.log("User..", user);
 
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid credentials" });
@@ -93,17 +89,21 @@ router.post("/login", async (req, res) => {
         success: true,
         message: "Login successful",
         token,
+        access: user?.department,
+        sidemenus: user?.sidemenus,
+        adminID: user.empID,
       });
     }
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+    console.log("Error in login User", error);
   }
 });
 
 // Get All Users (Active & Inactive)
 router.get("/all", protect, async (req, res) => {
   try {
-    const allUsers = await userSchema.find();
+    const allUsers = await userSchema.find({ loginType: "User" });
     res.status(200).json({ success: true, allUsers });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -126,8 +126,6 @@ router.put("/:userID", async (req, res) => {
     if (reqData?.password) {
       reqData.password = await bcrypt.hash(reqData?.password, 10);
     }
-
-    console.log("reqData", reqData);
 
     const updateUser = await userSchema.findOneAndUpdate(
       { userID: req.params.userID },
