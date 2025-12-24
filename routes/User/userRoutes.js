@@ -1,8 +1,18 @@
 import express from "express";
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
+import speakeasy from "speakeasy";
 import userSchema from "../../models/user/userSchema.js";
 
 const router = express.Router();
+
+const generateToken = (admin) => {
+  return jwt.sign(
+    { adminID: admin.adminID, email: admin.email },
+    process.env.JWT_SECRET,
+    { expiresIn: process.env.EXPIRES_IN }
+  );
+};
 
 // Register User
 router.post("/register", async (req, res) => {
@@ -36,6 +46,7 @@ router.post("/register", async (req, res) => {
       menu,
       ipAddress,
       sidemenus,
+      loginType: "User",
     });
 
     res
@@ -49,14 +60,27 @@ router.post("/register", async (req, res) => {
 // Login User
 router.post("/login", async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { empID, password } = req.body;
 
-    const user = await userSchema.findOne({ email }).select("+password");
+    console.log("req.body", req.body);
+
+    const user = await userSchema.findOne({ empID }).select("+password");
+
+    console.log("User..", user);
 
     if (!user || !(await user.comparePassword(password))) {
       return res.status(401).json({ message: "Invalid credentials" });
     }
-    res.status(200).json({ success: true, message: "Login successful" });
+
+    if (user?.loginType === "Admin") {
+      res.status(200).json({
+        success: true,
+        message: "Password correct, proceed to OTP verification",
+        adminID: user.empID,
+      });
+    } else {
+      res.status(200).json({ success: true, message: "Login successful" });
+    }
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -167,6 +191,42 @@ router.delete("/:userID", async (req, res) => {
       .json({ success: true, message: "User deleted permanently" });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// Veridy Otp
+router.post("/verify-otp", async (req, res) => {
+  try {
+    const { empID, otp } = req.body;
+    const admin = await userSchema.findOne({ empID }).select("+authCode");
+
+    if (!admin) return res.status(404).json({ message: "Admin not found" });
+
+    const verifyOTP = speakeasy.totp.verify({
+      secret: admin.authCode,
+      encoding: "base32",
+      token: otp,
+      window: 1,
+    });
+
+    if (!verifyOTP) {
+      return res
+        .status(401)
+        .json({ message: "Invalid OTP. Please try again !" });
+    }
+
+    const token = generateToken(admin);
+
+    res.json({
+      success: true,
+      message: "Login successful with OTP",
+      token,
+      access: admin?.department,
+      sidemenus: admin?.sidemenus,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+    console.log("error fetching Verify otp", error);
   }
 });
 
