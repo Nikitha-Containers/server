@@ -9,8 +9,11 @@ const userSchema = new mongoose.Schema(
     password: { type: String, required: true, select: false },
     empName: { type: String },
     department: { type: String },
-    menu: { type: String },
+    ipAddress: { type: String },
+    loginType: { type: String },
     status: { type: Number, default: 1 },
+    sidemenus: { type: String, default: "" },
+    authCode: { type: String, default: "Q65YWSQJG66JPNKO" },
   },
   { timestamps: true }
 );

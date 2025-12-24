@@ -4,7 +4,7 @@ const designSchema = new mongoose.Schema(
   {
     saleorder_no: { type: String, required: true, unique: true },
     posting_date: { type: Date },
-    quantity: { type: String, default: "" },
+    item_quantity: { type: String, default: "" },
     machine: { type: String, default: "" },
     components: { type: Object, default: {} },
     art_work: { type: String, default: "" },
