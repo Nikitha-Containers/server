@@ -3,34 +3,42 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import speakeasy from "speakeasy";
 import userSchema from "../../models/user/userSchema.js";
+import protect from "../../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
-const generateToken = (admin) => {
+const generateToken = (user) => {
   return jwt.sign(
-    { adminID: admin.adminID, email: admin.email },
+    { userID: user.userID, empID: user.empID, role: user.loginType },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXPIRES_IN }
   );
 };
 
 // Register User
-router.post("/register", async (req, res) => {
+router.post("/register", protect, async (req, res) => {
   try {
+    if (req.user.role !== "Admin") {
+      return res.status(403).json({ message: "Admin access only" });
+    }
+
     const {
       email,
       password,
       empID,
       empName,
       department,
-      menu,
       ipAddress,
       pages,
+      loginType = "User",
     } = req.body;
 
-    const sidemenus = pages.length ? pages?.toString() : "";
+    // Safety: allow only Admin or User
+    if (!["Admin", "User"].includes(loginType)) {
+      return res.status(400).json({ message: "Invalid loginType" });
+    }
 
-    console.log("req.body...pages", pages);
+    const sidemenus = pages?.toString() || "";
 
     const existingUser = await userSchema.findOne({ email });
     if (existingUser) {
@@ -43,15 +51,15 @@ router.post("/register", async (req, res) => {
       empID,
       empName,
       department,
-      menu,
       ipAddress,
       sidemenus,
-      loginType: "User",
+      loginType,
     });
 
-    res
-      .status(201)
-      .json({ success: true, message: "User created successfully" });
+    res.status(201).json({
+      success: true,
+      message: `${loginType} created successfully`,
+    });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
@@ -79,7 +87,13 @@ router.post("/login", async (req, res) => {
         adminID: user.empID,
       });
     } else {
-      res.status(200).json({ success: true, message: "Login successful" });
+      const token = generateToken(user);
+
+      res.status(200).json({
+        success: true,
+        message: "Login successful",
+        token,
+      });
     }
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
@@ -87,7 +101,7 @@ router.post("/login", async (req, res) => {
 });
 
 // Get All Users (Active & Inactive)
-router.get("/all", async (req, res) => {
+router.get("/all", protect, async (req, res) => {
   try {
     const allUsers = await userSchema.find();
     res.status(200).json({ success: true, allUsers });
@@ -198,7 +212,10 @@ router.delete("/:userID", async (req, res) => {
 router.post("/verify-otp", async (req, res) => {
   try {
     const { empID, otp } = req.body;
-    const admin = await userSchema.findOne({ empID }).select("+authCode");
+
+    const admin = await userSchema
+      .findOne({ empID, loginType: "Admin" })
+      .select("+authCode");
 
     if (!admin) return res.status(404).json({ message: "Admin not found" });
 
