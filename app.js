@@ -3,7 +3,7 @@ dotenv.config();
 import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
-import adminRoutes from "./routes/Admin/adminRoutes.js";
+// import adminRoutes from "./routes/admin/adminRoutes.js";
 import userRoutes from "./routes/user/userRoutes.js";
 import SO_Routes from "./routes/SalesOrder/SO_Routes.js";
 import sapFetchRoutes from "./routes/salesOrder/sapFetchRoutes.js";
@@ -23,7 +23,7 @@ app.use(cors());
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // Routes
-app.use("/admin", adminRoutes);
+// app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);
 app.use("/sap", sapFetchRoutes);
 app.use("/salesorder", SO_Routes);

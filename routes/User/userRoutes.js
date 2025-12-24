@@ -9,7 +9,12 @@ const router = express.Router();
 
 const generateToken = (user) => {
   return jwt.sign(
-    { userID: user.userID, empID: user.empID, role: user.loginType },
+    {
+      userID: user.userID,
+      empID: user.empID,
+      role: user.loginType,
+      department: user.department,
+    },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXPIRES_IN }
   );
