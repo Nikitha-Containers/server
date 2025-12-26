@@ -8,6 +8,8 @@ import userRoutes from "./routes/user/userRoutes.js";
 import SO_Routes from "./routes/SalesOrder/SO_Routes.js";
 import sapFetchRoutes from "./routes/salesOrder/sapFetchRoutes.js";
 import DesignRoutes from "./routes/design/designRoutes.js";
+import StoresRouter from "./routes/stores/storesRouter.js";
+
 import path from "path";
 
 const { DB_CONNECTION, DATABASE, PORT } = process.env;
@@ -28,6 +30,7 @@ app.use("/user", userRoutes);
 app.use("/sap", sapFetchRoutes);
 app.use("/salesorder", SO_Routes);
 app.use("/design", DesignRoutes);
+app.use("/stores", StoresRouter);
 
 app.use("/", router);
 
