@@ -62,9 +62,16 @@ router.post("/sapSync", async (req, res) => {
 
     //Save DB
     await salesOrder.insertMany(sapData);
+
+    const latestSync = await salesOrder
+      .findOne()
+      .sort({ updatedAt: -1 })
+      .select("updatedAt");
+
     res.status(200).json({
       success: true,
       TotalRec: sapData.length,
+      lastSync: latestSync?.updatedAt || new Date(),
       message: "SAP Data Sync Completed Successfully",
     });
   } catch (error) {
