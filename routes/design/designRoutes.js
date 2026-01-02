@@ -18,6 +18,9 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       item_description,
       customer_name,
       due_date,
+      design_status,
+      design_pending_details,
+      sales_person_code,
     } = req.body;
 
     if (!saleorder_no || saleorder_no.trim() === "") {
@@ -25,6 +28,10 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     }
 
     let componentData = JSON.parse(components || "{}");
+
+    const designPendingDetails = design_pending_details
+      ? JSON.parse(design_pending_details)
+      : null;
 
     const existingDesign = await Design.findOne({ saleorder_no });
 
@@ -54,6 +61,9 @@ router.post("/add", uploadComp.any(), async (req, res) => {
         item_description,
         customer_name,
         due_date,
+        design_status,
+        design_pending_details,
+        sales_person_code,
       },
       { new: true, upsert: true }
     );

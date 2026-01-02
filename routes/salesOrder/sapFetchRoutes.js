@@ -3,6 +3,27 @@ import salesOrder from "../../models/SalesOrder/SO_Schema.js";
 import axios from "axios";
 
 const router = express.Router();
+const normalizeSapDateTime = (sapDate) => {
+  if (!sapDate) return null;
+
+  // If already Date object
+  if (sapDate instanceof Date) {
+    return new Date(
+      sapDate.getFullYear(),
+      sapDate.getMonth(),
+      sapDate.getDate()
+    );
+  }
+
+  // If string: "2025-10-03 00:00:00.0000000"
+  if (typeof sapDate === "string") {
+    const [datePart] = sapDate.split(" "); // "2025-10-03"
+    const [year, month, day] = datePart.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  }
+
+  return null;
+};
 
 //SapSync
 router.post("/sapSync", async (req, res) => {
@@ -24,8 +45,8 @@ router.post("/sapSync", async (req, res) => {
         customer_name: rec?.CardName || "",
         comments: rec?.Comments || "",
         discount_percent: rec?.DiscountPercent || 0,
-        posting_date: rec?.DocDate || null,
-        due_date: rec?.DocDueDate || null,
+        posting_date: normalizeSapDateTime(rec?.DocDate) || null,
+        due_date: normalizeSapDateTime(rec?.DocDueDate) || null,
         document_type: rec?.DocType || "",
         group_no: rec?.GroupNumber || 0,
 
@@ -51,7 +72,7 @@ router.post("/sapSync", async (req, res) => {
         sales_person_code: rec?.SalesPersonCode || 0,
         document_series: rec?.Series || "",
         shipto_code: rec?.ShipToCode || "",
-        tax_date: rec?.TaxDate || null,
+        tax_date: normalizeSapDateTime(rec?.TaxDate) || null,
         u_baseentry: rec?.U_BaseEntry || 0,
         u_basetype: rec?.U_BaseType || "",
         u_posted: rec?.U_Posted || "",

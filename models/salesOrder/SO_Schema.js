@@ -40,6 +40,7 @@ const SO_Schema = new mongoose.Schema(
     u_posted: { type: String },
     u_ssodentry: { type: Number },
     u_ssodoc: { type: Number },
+    design_status: { type: Number, default: 1 },
 
     art_work: { type: String }, //missing and artwork image need
     thickness: { type: String }, //thickness is missing
