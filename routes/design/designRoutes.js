@@ -62,7 +62,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
         customer_name,
         due_date,
         design_status,
-        design_pending_details,
+        design_pending_details: designPendingDetails,
         sales_person_code,
       },
       { new: true, upsert: true }

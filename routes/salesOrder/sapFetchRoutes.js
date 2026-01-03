@@ -15,7 +15,6 @@ const normalizeSapDateTime = (sapDate) => {
     );
   }
 
-  // If string: "2025-10-03 00:00:00.0000000"
   if (typeof sapDate === "string") {
     const [datePart] = sapDate.split(" "); // "2025-10-03"
     const [year, month, day] = datePart.split("-").map(Number);
