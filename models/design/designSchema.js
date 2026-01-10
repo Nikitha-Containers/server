@@ -11,9 +11,21 @@ const designSchema = new mongoose.Schema(
     item_description: { type: String, default: "" },
     customer_name: { type: String, default: "" },
     due_date: { type: Date },
-    design_status: { type: Number, default: 1 },
-    design_pending_details: { type: Object, default: {} },
     sales_person_code: { type: String, default: "" },
+
+    design_pending_details: { type: Object, default: {} },
+    design_status: { type: Number },
+
+    printingmanager_pending_details: { type: Object, default: {} },
+    printingmanager_status: { type: Number },
+
+    planning_work_details: { type: Object, default: {} },
+    planning_pending_details: { type: Object, default: {} },
+    planning_status: { type: Number },
+
+    coating_work_details: { type: Object, default: {} },
+    coating_pending_details: { type: Object, default: {} },
+    coating_status: { type: Number },
   },
   { timestamps: true }
 );
