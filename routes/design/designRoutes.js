@@ -31,6 +31,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       art_work,
       components,
       due_date,
+      operator_name,
 
       design_pending_details,
       design_status,
@@ -42,7 +43,6 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       planning_pending_details,
       planning_status,
 
-      coating_work_details,
       coating_pending_details,
       coating_status,
     } = req.body;
@@ -84,22 +84,18 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       finalPlanningWorkDetails = safeParse(planning_work_details);
     }
 
-    let finalPlanningDetails = existingDesign?.planning_pending_details || {};
+    let finalPlanningPendingDetails =
+      existingDesign?.planning_pending_details || {};
 
     if (planning_pending_details) {
-      finalPlanningDetails = safeParse(planning_pending_details);
+      finalPlanningPendingDetails = safeParse(planning_pending_details);
     }
 
-    let finalCoatingDetails = existingDesign?.coating_pending_details || {};
+    let finalCoatingPendingDetails =
+      existingDesign?.coating_pending_details || {};
 
     if (coating_pending_details) {
-      finalCoatingDetails = safeParse(coating_pending_details);
-    }
-
-    let finalCoatingWorkDetails = existingDesign?.coating_work_details || {};
-
-    if (planning_work_details) {
-      finalCoatingWorkDetails = safeParse(coating_work_details);
+      finalCoatingPendingDetails = safeParse(coating_pending_details);
     }
 
     if (existingDesign?.components) {
@@ -131,6 +127,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       customer_name,
       sales_person_code,
       due_date,
+      operator_name,
 
       design_pending_details: finalDesignPendingDetails,
       design_status: finalDesignStatus,
@@ -139,11 +136,10 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       printingmanager_status: finalPrintingStatus,
 
       planning_work_details: finalPlanningWorkDetails,
-      planning_pending_details: finalPlanningDetails,
+      planning_pending_details: finalPlanningPendingDetails,
       planning_status: finalPlanningStatus,
 
-      coating_work_details: finalDesignPendingDetails,
-      coating_pending_details: finalCoatingDetails,
+      coating_pending_details: finalCoatingPendingDetails,
       coating_status: finalCoatingStatus,
     };
 
@@ -173,43 +169,6 @@ router.get("/", async (req, res) => {
   try {
     const allDesign = await Design.find();
     res.status(200).json({ success: true, allDesign });
-  } catch (error) {
-    res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-// Update or Insert Design
-
-router.put("/:saleorder_no", async (req, res) => {
-  try {
-    const { components } = req.body;
-
-    const updateQuery = {};
-
-    Object.entries(components || {}).forEach(([compName, data]) => {
-      if (data.coating) {
-        updateQuery[`components.${compName}.coating`] = data.coating;
-      }
-
-      if (data.printingColor) {
-        updateQuery[`components.${compName}.printingColor`] =
-          data.printingColor;
-      }
-    });
-
-    const updateComponent = await Design.findOneAndUpdate(
-      {
-        saleorder_no: req.params.saleorder_no,
-      },
-      { $set: updateQuery },
-      { new: true, runValidators: true }
-    );
-
-    res.status(200).json({
-      success: true,
-      message: "Printing Manager Design Saved Successsfully ",
-      updateComponent,
-    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }

@@ -12,6 +12,7 @@ const designSchema = new mongoose.Schema(
     customer_name: { type: String, default: "" },
     due_date: { type: Date },
     sales_person_code: { type: String, default: "" },
+    operator_name: { type: String, default: "" },
 
     design_pending_details: { type: Object, default: {} },
     design_status: { type: Number },
@@ -23,10 +24,10 @@ const designSchema = new mongoose.Schema(
     planning_pending_details: { type: Object, default: {} },
     planning_status: { type: Number },
 
-    coating_work_details: { type: Object, default: {} },
     coating_pending_details: { type: Object, default: {} },
     coating_status: { type: Number },
   },
+  
   { timestamps: true }
 );
 
