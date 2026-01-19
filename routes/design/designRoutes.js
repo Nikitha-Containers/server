@@ -31,20 +31,29 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       art_work,
       components,
       due_date,
-      operator_name,
 
+      // Design
       design_pending_details,
       design_status,
 
+      // Printing Manager
       printingmanager_pending_details,
       printingmanager_status,
 
+      // Planning
       planning_work_details,
       planning_pending_details,
       planning_status,
 
+      // Coating
       coating_pending_details,
       coating_status,
+      coating_operator_name,
+
+      // Printing Team
+      printingteam_pending_details,
+      printingteam_status,
+      printingteam_operator_name,
     } = req.body;
 
     if (!saleorder_no || saleorder_no.trim() === "") {
@@ -56,13 +65,16 @@ router.post("/add", uploadComp.any(), async (req, res) => {
 
     const finalDesignStatus = design_status ?? existingDesign?.design_status;
 
-    const finalPrintingStatus =
+    const finalPrintingManagerStatus =
       printingmanager_status ?? existingDesign?.printingmanager_status;
 
     const finalPlanningStatus =
       planning_status ?? existingDesign?.planning_status;
 
     const finalCoatingStatus = coating_status ?? existingDesign?.coating_status;
+
+    const finalPrintingteamStatus =
+      printingteam_status ?? existingDesign?.printingteam_status;
 
     let finalDesignPendingDetails =
       existingDesign?.design_pending_details || {};
@@ -98,6 +110,13 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       finalCoatingPendingDetails = safeParse(coating_pending_details);
     }
 
+    let finalPrintingteamPendingDetails =
+      existingDesign?.printingteam_pending_details || {};
+
+    if (printingteam_pending_details) {
+      finalPrintingteamPendingDetails = safeParse(printingteam_pending_details);
+    }
+
     if (existingDesign?.components) {
       Object.entries(existingDesign.components).forEach(([name, comp]) => {
         if (componentData[name] && !componentData[name].file && comp.file) {
@@ -127,20 +146,29 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       customer_name,
       sales_person_code,
       due_date,
-      operator_name,
 
+      // Design
       design_pending_details: finalDesignPendingDetails,
       design_status: finalDesignStatus,
 
+      // Printing Manager
       printingmanager_pending_details: finalPrintingPendingDetails,
-      printingmanager_status: finalPrintingStatus,
+      printingmanager_status: finalPrintingManagerStatus,
 
+      // Planning
       planning_work_details: finalPlanningWorkDetails,
       planning_pending_details: finalPlanningPendingDetails,
       planning_status: finalPlanningStatus,
 
+      // Coating
+      coating_operator_name,
       coating_pending_details: finalCoatingPendingDetails,
       coating_status: finalCoatingStatus,
+
+      // Printing Team
+      printingteam_operator_name,
+      printing_pending_details: finalPrintingteamPendingDetails,
+      printingteam_status: finalPrintingteamStatus,
     };
 
     Object.keys(updateData).forEach(

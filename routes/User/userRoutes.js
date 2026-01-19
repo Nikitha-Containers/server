@@ -14,6 +14,7 @@ const generateToken = (user) => {
       empID: user.empID,
       role: user.loginType,
       department: user.department,
+      empName: user.empName,
     },
     process.env.JWT_SECRET,
     { expiresIn: process.env.EXPIRES_IN }
