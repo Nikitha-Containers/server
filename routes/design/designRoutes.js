@@ -24,6 +24,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       saleorder_no,
       posting_date,
       customer_name,
+      sales_employee,
       sales_person_code,
       item_description,
       item_quantity,
@@ -144,6 +145,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       art_work,
       item_description,
       customer_name,
+      sales_employee,
       sales_person_code,
       due_date,
 

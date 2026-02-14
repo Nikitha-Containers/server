@@ -50,6 +50,7 @@
   },
   "warehouse_code": "NC1FG001"
 },
+
 {
   "_id": {
     "$oid": "692817c0319f2bb874b23a90"
@@ -206,6 +207,7 @@
   },
   "warehouse_code": "NC1FG004"
 },
+
 {
   "_id": {
     "$oid": "692817c0319f2bb874b23a93"
@@ -258,6 +260,7 @@
   },
   "warehouse_code": "NC1FG001"
 },
+
 {
   "_id": {
     "$oid": "692817c0319f2bb874b23a94"
@@ -362,6 +365,7 @@
   },
   "warehouse_code": "NC1FG003"
 },
+
 {
   "_id": {
     "$oid": "692817c0319f2bb874b23a96"

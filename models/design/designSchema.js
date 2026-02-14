@@ -11,6 +11,7 @@ const designSchema = new mongoose.Schema(
     item_description: { type: String, default: "" },
     customer_name: { type: String, default: "" },
     due_date: { type: Date },
+    sales_employee: { type: String },
     sales_person_code: { type: String, default: "" },
 
     // Design
@@ -37,7 +38,7 @@ const designSchema = new mongoose.Schema(
     printingteam_status: { type: Number },
   },
 
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const Design = mongoose.model("upsDesign", designSchema);

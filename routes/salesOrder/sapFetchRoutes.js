@@ -11,7 +11,7 @@ const normalizeSapDateTime = (sapDate) => {
     return new Date(
       sapDate.getFullYear(),
       sapDate.getMonth(),
-      sapDate.getDate()
+      sapDate.getDate(),
     );
   }
 
@@ -35,12 +35,13 @@ router.post("/sapSync", async (req, res) => {
     let sapData = JSON.parse(data.Data[0].JSONRESULT);
 
     sapData = sapData.map((rec) => {
-      let itemDetails = JSON.parse(rec?.ItemDetail);
+      let itemDetails = JSON.parse(rec?.ItemDetail || "[]");
       itemDetails = itemDetails[0];
 
       return {
         invoice_no: rec?.BPL_IDAssignedToInvoice || "",
-        saleorder_no: rec?.CardCode || "",
+        saleorder_no: rec?.U_SSODoc || "",
+        card_code: rec.CardCode || "",
         customer_name: rec?.CardName || "",
         comments: rec?.Comments || "",
         discount_percent: rec?.DiscountPercent || 0,
@@ -48,17 +49,20 @@ router.post("/sapSync", async (req, res) => {
         due_date: normalizeSapDateTime(rec?.DocDueDate) || null,
         document_type: rec?.DocType || "",
         group_no: rec?.GroupNumber || 0,
+        file_ext: rec?.FileExt || "",
+        file_name: rec?.FileName || "",
 
         //Item Details Strat Here
         account_code: itemDetails?.AcctCode || "",
         item_discount_percent: itemDetails?.DiscountPercent || 0,
         item_code: itemDetails?.ItemCode || "",
         item_description: itemDetails?.ItemDescription || "",
-        item_line_no: itemDetails?.LineNum || 0,
+        item_line_no: itemDetails?.LineNum,
         item_location_code: itemDetails?.LocationCode || 0,
         item_price: itemDetails?.Price || 0,
         item_quantity: itemDetails?.Quantity || 0,
         item_tax_code: itemDetails?.TaxCode || "",
+        item_thickness: itemDetails?.Thickness_Of_Material || "",
         item_u_baseentry: itemDetails?.U_BaseEntry || 0,
         item_u_basetype: itemDetails?.U_BaseType || "",
         item_warehouse_code: itemDetails?.WarehouseCode || 0,
@@ -68,20 +72,44 @@ router.post("/sapSync", async (req, res) => {
         bill_code: rec?.PayToCode || "",
         round_off: rec?.Rounding || "",
         round_diff_amount: rec?.RoundingDiffAmount || 0,
+        sales_employee: rec?.SalesEmployee || "",
         sales_person_code: rec?.SalesPersonCode || 0,
         document_series: rec?.Series || "",
         shipto_code: rec?.ShipToCode || "",
         tax_date: normalizeSapDateTime(rec?.TaxDate) || null,
+        telephone: rec?.TelePhone,
         u_baseentry: rec?.U_BaseEntry || 0,
-        u_basetype: rec?.U_BaseType || "",
+        u_base_type: rec?.U_BaseType || "",
         u_posted: rec?.U_Posted || "",
         u_ssodentry: rec?.U_SSODEntry || 0,
-        u_ssodoc: rec?.U_SSODoc || 0,
+        source_path: rec?.srcPath || "",
       };
     });
 
     //Save DB
-    await salesOrder.insertMany(sapData);
+    // await salesOrder.insertMany(sapData);
+
+    const bulkUpsert = sapData.map((doc) => ({
+      updateOne: {
+        filter: {
+          saleorder_no: doc.saleorder_no,
+          item_line_no: doc.item_line_no,
+        },
+        update: { $set: doc },
+        upsert: true,
+      },
+    }));
+
+    let result;
+    try {
+      result = await salesOrder.bulkWrite(bulkUpsert);
+    } catch (err) {
+      if (err.code === 11000) {
+        console.log("Duplicate SO + Line skipped");
+      } else {
+        throw err;
+      }
+    }
 
     const latestSync = await salesOrder
       .findOne()
@@ -90,7 +118,7 @@ router.post("/sapSync", async (req, res) => {
 
     res.status(200).json({
       success: true,
-      TotalRec: sapData.length,
+      TotalRec: result?.upsertedCount || 0,
       lastSync: latestSync?.updatedAt || new Date(),
       message: "SAP Data Sync Completed Successfully",
     });
