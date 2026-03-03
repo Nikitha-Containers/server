@@ -24,6 +24,12 @@ app.use(cors());
 // Multer Config
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
+// ArtWork Image Local Path Connection
+app.use(
+  "/artworkImages",
+  express.static(path.join("C:/Users/Admin/OneDrive/NCPL/ARTWORK")),
+);
+
 // Routes
 // app.use("/admin", adminRoutes);
 app.use("/user", userRoutes);

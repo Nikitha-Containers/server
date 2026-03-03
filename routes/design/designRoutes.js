@@ -25,13 +25,15 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       posting_date,
       customer_name,
       sales_employee,
-      sales_person_code,
+      telephone,
       item_description,
       item_quantity,
       machine,
       art_work,
       components,
       due_date,
+      file_name,
+      file_ext,
 
       // Design
       design_pending_details,
@@ -146,8 +148,10 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       item_description,
       customer_name,
       sales_employee,
-      sales_person_code,
+      telephone,
       due_date,
+      file_name,
+      file_ext,
 
       // Design
       design_pending_details: finalDesignPendingDetails,
@@ -174,13 +178,13 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     };
 
     Object.keys(updateData).forEach(
-      (key) => updateData[key] === undefined && delete updateData[key]
+      (key) => updateData[key] === undefined && delete updateData[key],
     );
 
     const design = await Design.findOneAndUpdate(
       { saleorder_no },
       { $set: updateData },
-      { new: true, upsert: true }
+      { new: true, upsert: true },
     );
 
     res.status(201).json({

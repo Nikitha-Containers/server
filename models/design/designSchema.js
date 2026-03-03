@@ -12,7 +12,9 @@ const designSchema = new mongoose.Schema(
     customer_name: { type: String, default: "" },
     due_date: { type: Date },
     sales_employee: { type: String },
-    sales_person_code: { type: String, default: "" },
+    telephone: { type: String, default: "" },
+    file_name: { type: String, default: "" },
+    file_ext: { type: String, default: "" },
 
     // Design
     design_pending_details: { type: Object, default: {} },
