@@ -34,6 +34,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       due_date,
       file_name,
       file_ext,
+      thickness,
 
       // Design
       design_pending_details,
@@ -152,6 +153,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       due_date,
       file_name,
       file_ext,
+      thickness,
 
       // Design
       design_pending_details: finalDesignPendingDetails,

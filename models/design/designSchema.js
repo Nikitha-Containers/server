@@ -15,6 +15,7 @@ const designSchema = new mongoose.Schema(
     telephone: { type: String, default: "" },
     file_name: { type: String, default: "" },
     file_ext: { type: String, default: "" },
+    thickness: { type: String, default: "" },
 
     // Design
     design_pending_details: { type: Object, default: {} },

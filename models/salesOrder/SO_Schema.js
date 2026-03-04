@@ -33,7 +33,7 @@ const SO_Schema = new mongoose.Schema(
     item_description: { type: String, default: "" },
     item_line_no: { type: Number, required: true },
     item_line_total: { type: Number, default: 0 },
-    item_thickness: { type: String, default: "" },
+    thickness: { type: String, default: "" },
 
     customer_ref_no: { type: String, default: "" },
     outside_lid_or_bottom: { type: String, default: "" },

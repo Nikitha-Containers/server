@@ -60,7 +60,7 @@ router.post("/sapSync", async (req, res) => {
         item_description: rec?.ItemDescription,
         item_line_no: rec?.LineNum,
         item_line_total: rec?.LineTotal,
-        item_thickness: rec?.["MATERIAL THICKNESS"],
+        thickness: rec?.["MATERIAL THICKNESS"],
         customer_ref_no: rec?.NumAtCard,
         outside_lid_or_bottom: rec?.["OUTSIDE LID/BOTTOM"],
         other_freight: rec?.["Other Freight"],
