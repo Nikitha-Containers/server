@@ -7,7 +7,17 @@ const router = express.Router();
 router.get("/", async (req, res) => {
   try {
     const data = await salesOrder.find();
-    res.status(200).json({ success: true, data });
+
+    const latestSync = await salesOrder
+      .findOne()
+      .sort({ updatedAt: -1 })
+      .select("updatedAt");
+
+    res.status(200).json({
+      success: true,
+      data,
+      lastSync: latestSync?.updatedAt || null,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -19,7 +29,7 @@ router.put("/:id", async (req, res) => {
     const update = await salesOrder.findOneAndUpdate(
       { id: req.params.id },
       req.body,
-      { new: true }
+      { new: true },
     );
 
     if (!update) return res.status(404).json({ message: "Not found" });

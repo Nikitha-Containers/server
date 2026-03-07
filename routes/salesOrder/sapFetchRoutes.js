@@ -1,8 +1,10 @@
 import express from "express";
 import salesOrder from "../../models/SalesOrder/SO_Schema.js";
 import axios from "axios";
+import cron from "node-cron";
 
 const router = express.Router();
+
 const normalizeSapDateTime = (sapDate) => {
   if (!sapDate) return null;
 
@@ -16,7 +18,7 @@ const normalizeSapDateTime = (sapDate) => {
   }
 
   if (typeof sapDate === "string") {
-    const [datePart] = sapDate.split(" "); // "2025-10-03"
+    const [datePart] = sapDate.split(" ");
     const [year, month, day] = datePart.split("-").map(Number);
     return new Date(year, month - 1, day);
   }
@@ -24,8 +26,17 @@ const normalizeSapDateTime = (sapDate) => {
   return null;
 };
 
-//SapSync
-router.post("/sapSync", async (req, res) => {
+// SAP Sync Function
+
+let isSyncRunning = false;
+
+const runSapSync = async () => {
+  if (isSyncRunning) {
+    console.log("SAP Sync already running...");
+    return;
+  }
+
+  isSyncRunning = true;
   try {
     const sapURL =
       "http://180.235.121.59:19930/GET_SAP_API/SalesOrderDetails?FromDate=20251030&ToDate=20251030";
@@ -103,36 +114,48 @@ router.post("/sapSync", async (req, res) => {
       },
     }));
 
-    let result;
-    try {
-      result = await salesOrder.bulkWrite(bulkUpsert);
-    } catch (err) {
-      if (err.code === 11000) {
-        console.log("Duplicate SO + Line skipped");
-      } else {
-        throw err;
-      }
-    }
+    const result = await salesOrder.bulkWrite(bulkUpsert);
 
-    const latestSync = await salesOrder
-      .findOne()
-      .sort({ updatedAt: -1 })
-      .select("updatedAt");
+    return {
+      total: result?.upsertedCount,
+    };
+  } catch (error) {
+    console.error("SAP Sync Failed:", error.message);
+    throw error;
+  } finally {
+    isSyncRunning = false;
+  }
+};
+
+//  API Route (Manual Run)
+router.post("/sapSync", async (req, res) => {
+  try {
+    const result = await runSapSync();
 
     res.status(200).json({
       success: true,
-      TotalRec: result?.upsertedCount,
-      lastSync: latestSync?.updatedAt || new Date(),
-      message: "SAP Data Sync Completed Successfully",
+      TotalRec: result.total,
+      message: "SAP Data Sync Completed",
     });
   } catch (error) {
-    console.error(error);
+    console.error("SAP Sync Failed:", error.message);
 
     res.status(500).json({
       success: false,
-      message: "SAP Data Import Failed",
+      message: "SAP Sync Failed",
     });
   }
 });
 
+// AUTO SYNC EVERY DAY 10:00 AM
+cron.schedule(
+  "0 10 * * *",
+  async () => {
+    console.log("Running Auto SAP Sync (10:00 AM)");
+    await runSapSync();
+  },
+  {
+    timezone: "Asia/Kolkata",
+  },
+);
 export default router;
