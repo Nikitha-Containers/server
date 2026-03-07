@@ -10,31 +10,37 @@ router.get("/", async (req, res) => {
 
     const latestSync = await salesOrder
       .findOne()
-      .sort({ updatedAt: -1 })
-      .select("updatedAt");
+      .sort({ sap_sync_time: -1 })
+      .select("sap_sync_time");
 
     res.status(200).json({
       success: true,
       data,
-      lastSync: latestSync?.updatedAt || null,
+      lastSync: latestSync?.sap_sync_time  || null,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
-// Update
-router.put("/:id", async (req, res) => {
+// Cancel Sales Order (Soft Delete)
+router.put("/:unique_id", async (req, res) => {
   try {
-    const update = await salesOrder.findOneAndUpdate(
-      { id: req.params.id },
-      req.body,
+    const cancelOrder = await salesOrder.findOneAndUpdate(
+      { unique_id: req.params.unique_id },
+      { status: 0 },
       { new: true },
     );
 
-    if (!update) return res.status(404).json({ message: "Not found" });
+    if (!cancelOrder) {
+      return res.status(404).json({ message: "Order not found" });
+    }
 
-    res.json({ success: true, data: update });
+    res.json({
+      success: true,
+      message: "Sales Order Cancelled",
+      data: cancelOrder,
+    });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const SO_Schema = new mongoose.Schema(
   {
+    unique_id: { type: String, unique: true, index: true },
     account_code: { type: String, default: "" },
     carton_printing: { type: String, default: "" },
     card_code: { type: String, default: "" },
@@ -68,6 +69,9 @@ const SO_Schema = new mongoose.Schema(
     item_warehouse_code: { type: String, default: "" },
 
     source_path: { type: String, default: "" },
+    status: { type: Number, default: 1 }, // 1 = Active , 0 = Cancel
+
+    sap_sync_time: { type: Date, default: null },
   },
   { timestamps: true },
 );

@@ -37,6 +37,7 @@ const runSapSync = async () => {
   }
 
   isSyncRunning = true;
+
   try {
     const sapURL =
       "http://180.235.121.59:19930/GET_SAP_API/SalesOrderDetails?FromDate=20251030&ToDate=20251030";
@@ -46,7 +47,13 @@ const runSapSync = async () => {
     let sapData = JSON.parse(data.Data[0].JSONRESULT);
 
     sapData = sapData.map((rec) => {
+      const saleorder_no = rec?.DocEntry;
+      const item_line_no = rec?.LineNum;
+      const syncTime = new Date();
+
       return {
+        unique_id: `SO_${saleorder_no}_${item_line_no}`,
+        sap_sync_time: syncTime,
         account_code: rec?.AcctCode,
         carton_printing: rec?.["CARTON PRINTING"],
         card_code: rec.CardCode,
@@ -55,7 +62,7 @@ const runSapSync = async () => {
         doc_currency: rec?.DocCur,
         posting_date: normalizeSapDateTime(rec?.DocDate),
         due_date: normalizeSapDateTime(rec?.DocDueDate),
-        saleorder_no: rec?.DocEntry,
+        saleorder_no: saleorder_no,
         doc_number: rec?.DocNum,
         doc_rate: rec?.DocRate,
         file_ext: rec?.FileExt,
@@ -69,7 +76,7 @@ const runSapSync = async () => {
         interest: rec?.Interest,
         item_code: rec?.ItemCode,
         item_description: rec?.ItemDescription,
-        item_line_no: rec?.LineNum,
+        item_line_no: item_line_no,
         item_line_total: rec?.LineTotal,
         thickness: rec?.["MATERIAL THICKNESS"],
         customer_ref_no: rec?.NumAtCard,
@@ -105,10 +112,7 @@ const runSapSync = async () => {
 
     const bulkUpsert = sapData.map((doc) => ({
       updateOne: {
-        filter: {
-          saleorder_no: doc.saleorder_no,
-          item_line_no: doc.item_line_no,
-        },
+        filter: { unique_id: doc?.unique_id },
         update: { $set: doc },
         upsert: true,
       },
