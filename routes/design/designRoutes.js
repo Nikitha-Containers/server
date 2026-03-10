@@ -21,7 +21,9 @@ const safeParse = (value) => {
 router.post("/add", uploadComp.any(), async (req, res) => {
   try {
     const {
+      unique_id,
       saleorder_no,
+      item_line_no,
       posting_date,
       customer_name,
       sales_employee,
@@ -65,7 +67,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     }
     let componentData = safeParse(components) || {};
 
-    const existingDesign = await Design.findOne({ saleorder_no });
+    const existingDesign = await Design.findOne({ unique_id });
 
     const finalDesignStatus = design_status ?? existingDesign?.design_status;
 
@@ -140,7 +142,9 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     });
 
     const updateData = {
+      unique_id,
       saleorder_no,
+      item_line_no,
       posting_date,
       item_quantity,
       machine,
@@ -175,7 +179,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
 
       // Printing Team
       printingteam_operator_name,
-      printing_pending_details: finalPrintingteamPendingDetails,
+      printingteam_pending_details: finalPrintingteamPendingDetails,
       printingteam_status: finalPrintingteamStatus,
     };
 
@@ -184,7 +188,7 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     );
 
     const design = await Design.findOneAndUpdate(
-      { saleorder_no },
+      { unique_id },
       { $set: updateData },
       { new: true, upsert: true },
     );

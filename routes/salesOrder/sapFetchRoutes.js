@@ -26,6 +26,10 @@ const normalizeSapDateTime = (sapDate) => {
   return null;
 };
 
+// For null values
+
+const clean = (val) => (val === "NULL" ? null : val);
+
 // SAP Sync Function
 
 let isSyncRunning = false;
@@ -44,7 +48,9 @@ const runSapSync = async () => {
 
     const { data } = await axios.get(sapURL);
 
-    let sapData = JSON.parse(data.Data[0].JSONRESULT);
+    let sapData = data?.Data?.[0]?.JSONRESULT
+      ? JSON.parse(data.Data[0].JSONRESULT)
+      : [];
 
     sapData = sapData.map((rec) => {
       const saleorder_no = rec?.DocEntry;
@@ -65,8 +71,8 @@ const runSapSync = async () => {
         saleorder_no: saleorder_no,
         doc_number: rec?.DocNum,
         doc_rate: rec?.DocRate,
-        file_ext: rec?.FileExt,
-        file_name: rec?.FileName,
+        file_ext: clean(rec?.FileExt),
+        file_name: clean(rec?.FileName),
         film_develop_cost: rec?.["Film Develop Cost"],
         freight_charges_pm: rec?.["Freight CHARGES PM"],
         freight_charges_rm: rec?.["Freight CHARGES RM"],
@@ -103,7 +109,7 @@ const runSapSync = async () => {
         total_expense: rec?.["Total Expense"],
         window: rec?.WINDOW,
         item_warehouse_code: rec?.WarehouseCode,
-        source_path: rec?.srcPath,
+        source_path: clean(rec?.srcPath),
       };
     });
 

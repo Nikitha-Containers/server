@@ -2,7 +2,9 @@ import mongoose from "mongoose";
 
 const designSchema = new mongoose.Schema(
   {
-    saleorder_no: { type: String, required: true, unique: true },
+    unique_id: { type: String, required: true, unique: true },
+    saleorder_no: { type: Number, required: true },
+    item_line_no: { type: Number, required: true },
     posting_date: { type: Date },
     item_quantity: { type: String, default: "" },
     machine: { type: String, default: "" },
@@ -43,6 +45,8 @@ const designSchema = new mongoose.Schema(
 
   { timestamps: true },
 );
+
+designSchema.index({ unique_id: 1 }, { unique: true });
 
 const Design = mongoose.model("upsDesign", designSchema);
 
