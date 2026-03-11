@@ -62,9 +62,6 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       printingteam_operator_name,
     } = req.body;
 
-    if (!saleorder_no || saleorder_no.trim() === "") {
-      return res.status(400).json({ message: "Saleorder No is Required" });
-    }
     let componentData = safeParse(components) || {};
 
     const existingDesign = await Design.findOne({ unique_id });
