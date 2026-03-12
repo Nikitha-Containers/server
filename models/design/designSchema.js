@@ -27,6 +27,10 @@ const designSchema = new mongoose.Schema(
     printingmanager_pending_details: { type: Object, default: {} },
     printingmanager_status: { type: Number },
 
+    //Flim Plate
+    flimplate_pending_reason: { type: Object, default: {} },
+    flim_plate_status: { type: Number },
+
     // Planning
     planning_work_details: { type: Object, default: {} },
     planning_pending_details: { type: Object, default: {} },

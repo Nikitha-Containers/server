@@ -46,6 +46,10 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       printingmanager_pending_details,
       printingmanager_status,
 
+      //Flim Plate
+      flimplate_pending_reason,
+      flim_plate_status,
+
       // Planning
       planning_work_details,
       planning_pending_details,
@@ -71,6 +75,9 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     const finalPrintingManagerStatus =
       printingmanager_status ?? existingDesign?.printingmanager_status;
 
+    const finalFlimPlateStatus =
+      flim_plate_status ?? existingDesign?.flim_plate_status;
+
     const finalPlanningStatus =
       planning_status ?? existingDesign?.planning_status;
 
@@ -91,6 +98,13 @@ router.post("/add", uploadComp.any(), async (req, res) => {
 
     if (printingmanager_pending_details) {
       finalPrintingPendingDetails = safeParse(printingmanager_pending_details);
+    }
+
+    let finalFlimPlatePendingReason =
+      existingDesign?.flimplate_pending_reason || {};
+
+    if (flimplate_pending_reason) {
+      finalFlimPlatePendingReason = safeParse(flimplate_pending_reason);
     }
 
     let finalPlanningWorkDetails = existingDesign?.planning_work_details || {};
@@ -163,6 +177,10 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       // Printing Manager
       printingmanager_pending_details: finalPrintingPendingDetails,
       printingmanager_status: finalPrintingManagerStatus,
+
+      //Flim Plate
+      flimplate_pending_reason: finalFlimPlatePendingReason,
+      flim_plate_status: finalFlimPlateStatus,
 
       // Planning
       planning_work_details: finalPlanningWorkDetails,
