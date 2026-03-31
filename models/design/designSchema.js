@@ -50,7 +50,6 @@ const designSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-designSchema.index({ unique_id: 1 }, { unique: true });
 
 const Design = mongoose.model("upsDesign", designSchema);
 
