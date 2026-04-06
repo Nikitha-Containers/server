@@ -84,7 +84,9 @@ const runSapSync = async () => {
         item_description: rec?.ItemDescription,
         item_line_no: item_line_no,
         item_line_total: rec?.LineTotal,
-        thickness: rec?.["MATERIAL THICKNESS"],
+        thickness: rec?.["MATERIAL THICKNESS"]
+          ? rec["MATERIAL THICKNESS"].replace(/mm/i, "").trim()
+          : null,
         customer_ref_no: rec?.NumAtCard,
         outside_lid_or_bottom: rec?.["OUTSIDE LID/BOTTOM"],
         other_freight: rec?.["Other Freight"],

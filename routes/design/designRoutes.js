@@ -136,8 +136,11 @@ router.post("/add", uploadComp.any(), async (req, res) => {
 
     if (existingDesign?.components) {
       Object.entries(existingDesign.components).forEach(([name, comp]) => {
-        if (componentData[name] && !componentData[name].file && comp.file) {
-          componentData[name].file = comp.file;
+        if (componentData[name]) {
+          componentData[name] = {
+            ...comp,
+            ...componentData[name],
+          };
         }
       });
     }
