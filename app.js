@@ -10,6 +10,7 @@ import sapFetchRoutes from "./routes/salesOrder/sapFetchRoutes.js";
 import DesignRoutes from "./routes/design/designRoutes.js";
 import StoreRoutes from "./routes/stores/storeDataRoutes.js";
 import MachineRoutes from "./routes/machine/machineRoutes.js";
+import EmployeeRoutes from "./routes/employee/employeeRoutes.js";
 
 import path from "path";
 
@@ -39,6 +40,7 @@ app.use("/salesorder", SO_Routes);
 app.use("/design", DesignRoutes);
 app.use("/store", StoreRoutes);
 app.use("/machine", MachineRoutes);
+app.use("/employee", EmployeeRoutes);
 
 app.use("/", router);
 

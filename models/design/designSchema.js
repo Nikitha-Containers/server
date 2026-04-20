@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const designSchema = new mongoose.Schema(
   {
@@ -37,19 +38,23 @@ const designSchema = new mongoose.Schema(
     planning_status: { type: Number },
 
     // Coating
-    coating_operator_name: { type: String, default: "" },
+    coating_work_details: { type: Object, default: {} },
     coating_pending_details: { type: Object, default: {} },
     coating_status: { type: Number },
 
     // Printing Team
-    printingteam_operator_name: { type: String, default: "" },
+    printingteam_work_details: { type: Object, default: {} },
     printingteam_pending_details: { type: Object, default: {} },
     printingteam_status: { type: Number },
+
+    // Fabrication
+    fabrication_work_details: { type: Object, default: {} },
+    fabrication_pending_details: { type: Object, default: {} },
+    fabrication_status: { type: Number },
   },
 
   { timestamps: true },
 );
-
 
 const Design = mongoose.model("upsDesign", designSchema);
 
