@@ -1,5 +1,3 @@
-// models/machine/machineSchema.js
-
 import mongoose from "mongoose";
 
 const machineSchema = new mongoose.Schema(
