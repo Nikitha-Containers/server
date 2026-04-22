@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { type } from "os";
 
 const designSchema = new mongoose.Schema(
   {
@@ -28,7 +27,7 @@ const designSchema = new mongoose.Schema(
     printingmanager_pending_details: { type: Object, default: {} },
     printingmanager_status: { type: Number },
 
-    //Flim Plate
+    // Flim Plate
     flimplate_pending_reason: { type: Object, default: {} },
     flim_plate_status: { type: Number },
 
@@ -46,6 +45,11 @@ const designSchema = new mongoose.Schema(
     printingteam_work_details: { type: Object, default: {} },
     printingteam_pending_details: { type: Object, default: {} },
     printingteam_status: { type: Number },
+    
+    // Varnish
+    varnish_work_details: { type: Object, default: {} },
+    varnish_pending_details: { type: Object, default: {} },
+    varnish_status: { type: Number },
 
     // Fabrication
     fabrication_work_details: { type: Object, default: {} },

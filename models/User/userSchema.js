@@ -5,7 +5,7 @@ import speakeasy from "speakeasy";
 const userSchema = new mongoose.Schema(
   {
     userID: { type: Number, unique: true },
-    empID: { type: String },
+    empID: { type: String, unique: true },
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true, select: false },
     empName: { type: String },
@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
     sidemenus: { type: String, default: "" },
     authCode: { type: String, select: false, default: null }, // Only for admin
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 // Auto-increment userID + password hash + ADMIN OTP
