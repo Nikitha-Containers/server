@@ -73,6 +73,11 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       fabrication_work_details,
       fabrication_pending_details,
       fabrication_status,
+
+      // Dispatch
+      dispatch_work_details,
+      dispatch_pending_details,
+      dispatch_status,
     } = req.body;
 
     let componentData = safeParse(components) || {};

@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 import cors from "cors";
 // import adminRoutes from "./routes/admin/adminRoutes.js";
 import userRoutes from "./routes/user/userRoutes.js";
-import SO_Routes from "./routes/SalesOrder/SO_Routes.js";
+import SO_Routes from "./routes/salesOrder/SO_Routes.js";
 import sapFetchRoutes from "./routes/salesOrder/sapFetchRoutes.js";
 import DesignRoutes from "./routes/design/designRoutes.js";
 import StoreRoutes from "./routes/stores/storeDataRoutes.js";
@@ -14,7 +14,7 @@ import EmployeeRoutes from "./routes/employee/employeeRoutes.js";
 
 import path from "path";
 
-const { DB_CONNECTION, DATABASE, PORT } = process.env;
+const { DB_CONNECTION, DATABASE, PORT, ARTWORK_PATH } = process.env;
 
 const app = express();
 const router = express.Router();
@@ -27,10 +27,7 @@ app.use(cors());
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 // ArtWork Image Local Path Connection
-app.use(
-  "/artworkImages",
-  express.static(path.join("C:/Users/Admin/OneDrive/NCPL/ARTWORK")),
-);
+app.use("/artworkImages", express.static(process.env.ARTWORK_PATH));
 
 // Routes
 // app.use("/admin", adminRoutes);

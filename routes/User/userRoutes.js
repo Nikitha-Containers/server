@@ -17,7 +17,7 @@ const generateToken = (user) => {
       empName: user.empName,
     },
     process.env.JWT_SECRET,
-    { expiresIn: process.env.EXPIRES_IN }
+    { expiresIn: process.env.EXPIRES_IN },
   );
 };
 
@@ -120,7 +120,7 @@ router.get("/all", protect, async (req, res) => {
 });
 
 // Update User (with explicit password hashing)
-router.put("/:userID", async (req, res) => {
+router.put("/:userID", protect, async (req, res) => {
   try {
     const reqData = req.body?.updateData;
 
@@ -141,7 +141,7 @@ router.put("/:userID", async (req, res) => {
 
       reqData,
 
-      { new: true, runValidators: true }
+      { new: true, runValidators: true },
     );
 
     if (!updateUser) {
@@ -158,12 +158,12 @@ router.put("/:userID", async (req, res) => {
 });
 
 // Soft Delete User (set status = 0)
-router.put("/:userID/deactivate", async (req, res) => {
+router.put("/:userID/deactivate", protect, async (req, res) => {
   try {
     const deleteUser = await userSchema.findOneAndUpdate(
       { userID: req.params.userID },
       { status: 0 },
-      { new: true }
+      { new: true },
     );
     if (!deleteUser) {
       return res.status(404).json({ message: "User not found" });
@@ -182,7 +182,7 @@ router.put("/:userID/activate", async (req, res) => {
     const restoredUser = await userSchema.findOneAndUpdate(
       { userID: req.params.userID },
       { status: 1 },
-      { new: true }
+      { new: true },
     );
 
     if (!restoredUser) {

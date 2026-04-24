@@ -10,7 +10,7 @@ const storeDataExcel = new mongoose.Schema(
     price: { type: Number },
     total_value: { type: Number },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 const storeData = mongoose.model("storeData", storeDataExcel);

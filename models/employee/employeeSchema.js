@@ -26,7 +26,7 @@ const employeeSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 const EmployeeInfo = mongoose.model("EmployeeInfo", employeeSchema);
