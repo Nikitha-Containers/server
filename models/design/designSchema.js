@@ -45,7 +45,7 @@ const designSchema = new mongoose.Schema(
     printingteam_work_details: { type: Object, default: {} },
     printingteam_pending_details: { type: Object, default: {} },
     printingteam_status: { type: Number },
-    
+
     // Varnish
     varnish_work_details: { type: Object, default: {} },
     varnish_pending_details: { type: Object, default: {} },
@@ -55,6 +55,12 @@ const designSchema = new mongoose.Schema(
     fabrication_work_details: { type: Object, default: {} },
     fabrication_pending_details: { type: Object, default: {} },
     fabrication_status: { type: Number },
+
+    // Dispatch
+
+    dispatch_work_details: { type: Object, default: {} },
+    dispatch_pending_details: { type: Object, default: {} },
+    dispatch_status: { type: Number },
   },
 
   { timestamps: true },

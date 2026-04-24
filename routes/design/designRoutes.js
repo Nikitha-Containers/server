@@ -5,7 +5,6 @@ import { uploadComp } from "../../middlewares/multer.js";
 const router = express.Router();
 
 // Add a Design
-
 const safeParse = (value) => {
   try {
     if (!value) return null;
@@ -71,7 +70,6 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       varnish_status,
 
       // Fabrication
-
       fabrication_work_details,
       fabrication_pending_details,
       fabrication_status,
@@ -185,6 +183,21 @@ router.post("/add", uploadComp.any(), async (req, res) => {
     const finalFabricationStatus =
       fabrication_status ?? existingDesign?.fabrication_status;
 
+    // Dispatch
+    let finalDispatchWorkDetails = existingDesign?.dispatch_work_details || {};
+    if (dispatch_work_details) {
+      finalDispatchWorkDetails = safeParse(dispatch_work_details);
+    }
+
+    let finalDispatchPendingDetails =
+      existingDesign?.dispatch_pending_details || {};
+    if (dispatch_pending_details) {
+      finalDispatchPendingDetails = safeParse(dispatch_pending_details);
+    }
+
+    const finalDispatchStatus =
+      dispatch_status ?? existingDesign?.dispatch_status;
+
     if (existingDesign?.components) {
       Object.entries(existingDesign.components).forEach(([name, comp]) => {
         if (componentData[name]) {
@@ -260,6 +273,11 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       fabrication_work_details: finalFabricationWorkDetails,
       fabrication_pending_details: finalFabricationPendingDetails,
       fabrication_status: finalFabricationStatus,
+
+      // Dispatch
+      dispatch_work_details: finalDispatchWorkDetails,
+      dispatch_pending_details: finalDispatchPendingDetails,
+      dispatch_status: finalDispatchStatus,
     };
 
     Object.keys(updateData).forEach(
