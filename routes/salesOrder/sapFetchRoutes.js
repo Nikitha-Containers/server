@@ -59,7 +59,7 @@ const runSapSync = async () => {
       : [];
 
     sapData = sapData.map((rec) => {
-      const saleorder_no = rec?.DocEntry;
+      const saleorder_no = rec?.DocNum;
       const item_line_no = rec?.LineNum;
       const syncTime = new Date();
 
@@ -75,7 +75,7 @@ const runSapSync = async () => {
         posting_date: normalizeSapDateTime(rec?.DocDate),
         due_date: normalizeSapDateTime(rec?.DocDueDate),
         saleorder_no: saleorder_no,
-        doc_number: rec?.DocNum,
+        doc_entry: rec?.DocEntry,
         doc_rate: rec?.DocRate,
         file_ext: clean(rec?.FileExt),
         file_name: clean(rec?.FileName),

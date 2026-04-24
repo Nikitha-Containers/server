@@ -6,6 +6,26 @@ const router = express.Router();
 // Get all
 router.get("/", async (req, res) => {
   try {
+    const data = await salesOrder.find({ status: 1 });
+
+    const latestSync = await salesOrder
+      .findOne()
+      .sort({ sap_sync_time: -1 })
+      .select("sap_sync_time");
+
+    res.status(200).json({
+      success: true,
+      data,
+      lastSync: latestSync?.sap_sync_time || null,
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Get all
+router.get("/all", async (req, res) => {
+  try {
     const data = await salesOrder.find();
 
     const latestSync = await salesOrder
@@ -16,7 +36,7 @@ router.get("/", async (req, res) => {
     res.status(200).json({
       success: true,
       data,
-      lastSync: latestSync?.sap_sync_time  || null,
+      lastSync: latestSync?.sap_sync_time || null,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
