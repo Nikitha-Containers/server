@@ -1,6 +1,8 @@
 import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
+import { createServer } from "http";
+import { Server } from "socket.io";
 import mongoose from "mongoose";
 import cors from "cors";
 // import adminRoutes from "./routes/admin/adminRoutes.js";
@@ -11,13 +13,27 @@ import DesignRoutes from "./routes/design/designRoutes.js";
 import StoreRoutes from "./routes/stores/storeDataRoutes.js";
 import MachineRoutes from "./routes/machine/machineRoutes.js";
 import EmployeeRoutes from "./routes/employee/employeeRoutes.js";
-
 import path from "path";
 
 const { DB_CONNECTION, DATABASE, PORT, ARTWORK_PATH } = process.env;
 
 const app = express();
-const router = express.Router();
+const httpServer = createServer(app);
+
+// Socket.IO — export so routes can use it
+export const io = new Server(httpServer, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"],
+  },
+});
+
+io.on("connection", (socket) => {
+  console.log("Client connected:", socket.id);
+  socket.on("disconnect", () => {
+    console.log(" Client disconnected:", socket.id);
+  });
+});
 
 // Middleware
 app.use(express.json());
@@ -39,8 +55,6 @@ app.use("/store", StoreRoutes);
 app.use("/machine", MachineRoutes);
 app.use("/employee", EmployeeRoutes);
 
-app.use("/", router);
-
 // MongoDB Connection
 mongoose
   .connect(DB_CONNECTION + DATABASE)
@@ -48,7 +62,7 @@ mongoose
   .catch((err) => console.error("Mongo DB Connection Failed ", err));
 
 // Root endpoint
-router.get("/", async (req, res) => {
+app.get("/", async (req, res) => {
   try {
     res.send("Connected...! 😎😉");
   } catch (err) {
@@ -57,7 +71,7 @@ router.get("/", async (req, res) => {
   }
 });
 
-// Server Connection
-app.listen(PORT, () => {
-  console.log(`Server Running on ${PORT}`);
+// Use httpServer for server connection
+httpServer.listen(PORT, () => {
+  console.log(`Server Running on ${PORT} with Socket.IO ✔`);
 });

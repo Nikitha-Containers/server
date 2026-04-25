@@ -1,6 +1,7 @@
 import express from "express";
 import Design from "../../models/design/designSchema.js";
 import { uploadComp } from "../../middlewares/multer.js";
+import { io } from "../../app.js";
 
 const router = express.Router();
 
@@ -294,6 +295,8 @@ router.post("/add", uploadComp.any(), async (req, res) => {
       { $set: updateData },
       { new: true, upsert: true },
     );
+
+    io.emit("design:updated");
 
     res.status(201).json({
       success: true,

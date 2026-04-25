@@ -2,6 +2,7 @@ import express from "express";
 import salesOrder from "../../models/SalesOrder/SO_Schema.js";
 import axios from "axios";
 import cron from "node-cron";
+import { io } from "../../app.js"; // NEW
 
 const router = express.Router();
 
@@ -134,9 +135,11 @@ const runSapSync = async () => {
 
     const result = await salesOrder.bulkWrite(bulkUpsert);
 
-    return {
-      total: result?.upsertedCount,
-    };
+    // io emit update
+    io.emit("so:updated");
+    console.log("📡 Emitted so:updated to all clients");
+
+    return { total: result?.upsertedCount };
   } catch (error) {
     console.error("SAP Sync Failed:", error.message);
     throw error;
@@ -145,7 +148,7 @@ const runSapSync = async () => {
   }
 };
 
-//  API Route (Manual Run)
+// Manual sync route
 router.post("/sapSync", async (req, res) => {
   try {
     const result = await runSapSync();
@@ -157,23 +160,18 @@ router.post("/sapSync", async (req, res) => {
     });
   } catch (error) {
     console.error("SAP Sync Failed:", error.message);
-
-    res.status(500).json({
-      success: false,
-      message: "SAP Sync Failed",
-    });
+    res.status(500).json({ success: false, message: "SAP Sync Failed" });
   }
 });
 
-// AUTO SYNC EVERY DAY 10:00 AM
+// Auto sync every day 10:00 AM IST
 cron.schedule(
   "0 10 * * *",
   async () => {
     console.log("Running Auto SAP Sync (10:00 AM)");
     await runSapSync();
   },
-  {
-    timezone: "Asia/Kolkata",
-  },
+  { timezone: "Asia/Kolkata" },
 );
+
 export default router;
