@@ -62,16 +62,22 @@ mongoose
   .catch((err) => console.error("Mongo DB Connection Failed ", err));
 
 // Root endpoint
-app.get("/", async (req, res) => {
-  try {
-    res.send("Connected...! 😎😉");
-  } catch (err) {
-    console.log("Connection Was Interrupted ....! 😤", err);
-    res.status(500).send("Something went wrong!");
-  }
-});
+// app.get("/", async (req, res) => {
+//   try {
+//     res.send("Connected...! 😎😉");
+//   } catch (err) {
+//     console.log("Connection Was Interrupted ....! 😤", err);
+//     res.status(500).send("Something went wrong!");
+//   }
+// });
 
 // Use httpServer for server connection
-httpServer.listen(PORT, () => {
-  console.log(`Server Running on ${PORT} with Socket.IO ✔`);
+httpServer.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server Running on ${PORT}`);
+});
+
+app.use(express.static(path.join(process.cwd(), "build")));
+
+app.use((req, res) => {
+  res.sendFile(path.join(process.cwd(), "build", "index.html"));
 });

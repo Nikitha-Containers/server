@@ -51,7 +51,8 @@ const runSapSync = async () => {
 
     const todayStr = formatDate(today);
 
-    const sapURL = `http://180.235.121.59:19930/GET_SAP_API/SalesOrderDetails?FromDate=${todayStr}&ToDate=${todayStr}`;
+    const sapURL = `http://192.168.1.122:19930/GET_SAP_API/SalesOrderDetails?FromDate=${todayStr}&ToDate=${todayStr}`;
+    console.log(sapURL);
 
     const { data } = await axios.get(sapURL);
 
